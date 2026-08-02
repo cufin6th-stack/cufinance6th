@@ -142,9 +142,9 @@ export function Avatar({
   className,
 }: {
   name: string;
-  src?: string | null;
-  size?: number;
-  className?: string;
+  src?: string | null | undefined;
+  size?: number | undefined;
+  className?: string | undefined;
 }) {
   if (src) {
     return (
