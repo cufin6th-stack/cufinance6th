@@ -11,9 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FundsRouteImport } from './routes/funds'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NoticesRouteImport } from './routes/notices'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as MembersIndexRouteImport } from './routes/members.index'
@@ -31,6 +33,11 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FundsRoute = FundsRouteImport.update({
   id: '/funds',
   path: '/funds',
@@ -44,6 +51,11 @@ const GalleryRoute = GalleryRouteImport.update({
 const NoticesRoute = NoticesRouteImport.update({
   id: '/notices',
   path: '/notices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EventsIndexRoute = EventsIndexRouteImport.update({
@@ -80,9 +92,11 @@ const NewsSlugRoute = NewsSlugRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
+  '/privacy': typeof PrivacyRoute
   '/events/$slug': typeof EventsSlugRoute
   '/members/$id': typeof MembersIdRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -93,9 +107,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
+  '/privacy': typeof PrivacyRoute
   '/events/$slug': typeof EventsSlugRoute
   '/members/$id': typeof MembersIdRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -107,9 +123,11 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
+  '/privacy': typeof PrivacyRoute
   '/events/$slug': typeof EventsSlugRoute
   '/members/$id': typeof MembersIdRoute
   '/news/$slug': typeof NewsSlugRoute
@@ -122,9 +140,11 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/contact'
     | '/funds'
     | '/gallery'
     | '/notices'
+    | '/privacy'
     | '/events/$slug'
     | '/members/$id'
     | '/news/$slug'
@@ -135,9 +155,11 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/contact'
     | '/funds'
     | '/gallery'
     | '/notices'
+    | '/privacy'
     | '/events/$slug'
     | '/members/$id'
     | '/news/$slug'
@@ -148,9 +170,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/about'
+    | '/contact'
     | '/funds'
     | '/gallery'
     | '/notices'
+    | '/privacy'
     | '/events/$slug'
     | '/members/$id'
     | '/news/$slug'
@@ -162,9 +186,11 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
   FundsRoute: typeof FundsRoute
   GalleryRoute: typeof GalleryRoute
   NoticesRoute: typeof NoticesRoute
+  PrivacyRoute: typeof PrivacyRoute
   EventsSlugRoute: typeof EventsSlugRoute
   MembersIdRoute: typeof MembersIdRoute
   NewsSlugRoute: typeof NewsSlugRoute
@@ -189,6 +215,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/funds': {
       id: '/funds'
       path: '/funds'
@@ -208,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/notices'
       fullPath: '/notices'
       preLoaderRoute: typeof NoticesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/events/': {
@@ -258,9 +298,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
   FundsRoute: FundsRoute,
   GalleryRoute: GalleryRoute,
   NoticesRoute: NoticesRoute,
+  PrivacyRoute: PrivacyRoute,
   EventsSlugRoute: EventsSlugRoute,
   MembersIdRoute: MembersIdRoute,
   NewsSlugRoute: NewsSlugRoute,
