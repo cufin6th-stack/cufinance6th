@@ -46,11 +46,12 @@ function MemberDetail() {
   const q = useQuery({
     queryKey: ["member", id, canSee],
     queryFn: async () => {
-      const table = canSee ? "profiles" : "members_public";
-      const { data, error } = await supabase.from(table).select("*").eq("id", id).maybeSingle();
-      if (error) throw new Error(error.message);
-      if (!data) throw notFound();
-      return data as Profile;
+      const res = canSee
+        ? await supabase.from("profiles").select("*").eq("id", id).maybeSingle()
+        : await supabase.from("members_public").select("*").eq("id", id).maybeSingle();
+      if (res.error) throw new Error(res.error.message);
+      if (!res.data) throw notFound();
+      return res.data as unknown as Profile;
     },
   });
 
@@ -61,30 +62,32 @@ function MemberDetail() {
       const [regs, cons] = await Promise.all([
         supabase
           .from("event_registrations")
-          .select("id, created_at, guests_adult, guests_child, events(title, slug, event_date)")
+          .select("id, created_at, attend_type, guests, total_amount, events(title, slug, event_date)")
           .eq("profile_id", id)
           .order("created_at", { ascending: false }),
         supabase
           .from("contributions")
-          .select("id, amount, purpose, status, received_on")
+          .select("id, amount, method, note, status, created_at")
           .eq("profile_id", id)
           .eq("status", "verified")
-          .order("received_on", { ascending: false }),
+          .order("created_at", { ascending: false }),
       ]);
       return {
-        regs: (regs.data ?? []) as {
+        regs: (regs.data ?? []) as unknown as {
           id: string;
           created_at: string;
-          guests_adult: number | null;
-          guests_child: number | null;
+          attend_type: string | null;
+          guests: number | null;
+          total_amount: number | null;
           events: { title: string; slug: string; event_date: string } | null;
         }[],
-        cons: (cons.data ?? []) as {
+        cons: (cons.data ?? []) as unknown as {
           id: string;
           amount: number;
-          purpose: string | null;
+          method: string | null;
+          note: string | null;
           status: string;
-          received_on: string | null;
+          created_at: string;
         }[],
       };
     },
@@ -150,8 +153,8 @@ function MemberDetail() {
                         <li key={r.id} className="text-[13.5px]">
                           <span className="font-semibold text-primary">{r.events?.title ?? "Event"}</span>
                           <span className="num block text-[12px] text-faint">
-                            {fmtDate(r.events?.event_date)} · {(r.guests_adult ?? 1)} adult
-                            {(r.guests_child ?? 0) > 0 ? `, ${r.guests_child} child` : ""}
+                            {fmtDate(r.events?.event_date)} · {r.attend_type ?? "single"}
+                            {(r.guests ?? 0) > 0 ? ` · ${r.guests} guest(s)` : ""}
                           </span>
                         </li>
                       ))
@@ -168,7 +171,7 @@ function MemberDetail() {
                         <li key={c.id} className="text-[13.5px]">
                           <span className="num font-semibold text-ok">{bdt(c.amount)}</span>
                           <span className="block text-[12px] text-faint">
-                            {c.purpose || "General fund"} · {fmtDate(c.received_on)}
+                            {c.method || "General fund"} · {fmtDate(c.created_at)}
                           </span>
                         </li>
                       ))
