@@ -12,12 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as FundsRouteImport } from './routes/funds'
+import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NoticesRouteImport } from './routes/notices'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
 import { Route as EventsSlugRouteImport } from './routes/events.$slug'
 import { Route as MembersIndexRouteImport } from './routes/members.index'
 import { Route as MembersIdRouteImport } from './routes/members.$id'
 import { Route as NewsIndexRouteImport } from './routes/news.index'
+import { Route as NewsSlugRouteImport } from './routes/news.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -32,6 +34,11 @@ const AboutRoute = AboutRouteImport.update({
 const FundsRoute = FundsRouteImport.update({
   id: '/funds',
   path: '/funds',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NoticesRoute = NoticesRouteImport.update({
@@ -64,14 +71,21 @@ const NewsIndexRoute = NewsIndexRouteImport.update({
   path: '/news/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NewsSlugRoute = NewsSlugRouteImport.update({
+  id: '/news/$slug',
+  path: '/news/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/funds': typeof FundsRoute
+  '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
   '/events/$slug': typeof EventsSlugRoute
   '/members/$id': typeof MembersIdRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/events/': typeof EventsIndexRoute
   '/members/': typeof MembersIndexRoute
   '/news/': typeof NewsIndexRoute
@@ -80,9 +94,11 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/funds': typeof FundsRoute
+  '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
   '/events/$slug': typeof EventsSlugRoute
   '/members/$id': typeof MembersIdRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/events': typeof EventsIndexRoute
   '/members': typeof MembersIndexRoute
   '/news': typeof NewsIndexRoute
@@ -92,9 +108,11 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/funds': typeof FundsRoute
+  '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
   '/events/$slug': typeof EventsSlugRoute
   '/members/$id': typeof MembersIdRoute
+  '/news/$slug': typeof NewsSlugRoute
   '/events/': typeof EventsIndexRoute
   '/members/': typeof MembersIndexRoute
   '/news/': typeof NewsIndexRoute
@@ -105,9 +123,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/funds'
+    | '/gallery'
     | '/notices'
     | '/events/$slug'
     | '/members/$id'
+    | '/news/$slug'
     | '/events/'
     | '/members/'
     | '/news/'
@@ -116,9 +136,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/funds'
+    | '/gallery'
     | '/notices'
     | '/events/$slug'
     | '/members/$id'
+    | '/news/$slug'
     | '/events'
     | '/members'
     | '/news'
@@ -127,9 +149,11 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/funds'
+    | '/gallery'
     | '/notices'
     | '/events/$slug'
     | '/members/$id'
+    | '/news/$slug'
     | '/events/'
     | '/members/'
     | '/news/'
@@ -139,9 +163,11 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   FundsRoute: typeof FundsRoute
+  GalleryRoute: typeof GalleryRoute
   NoticesRoute: typeof NoticesRoute
   EventsSlugRoute: typeof EventsSlugRoute
   MembersIdRoute: typeof MembersIdRoute
+  NewsSlugRoute: typeof NewsSlugRoute
   EventsIndexRoute: typeof EventsIndexRoute
   MembersIndexRoute: typeof MembersIndexRoute
   NewsIndexRoute: typeof NewsIndexRoute
@@ -168,6 +194,13 @@ declare module '@tanstack/react-router' {
       path: '/funds'
       fullPath: '/funds'
       preLoaderRoute: typeof FundsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/notices': {
@@ -212,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NewsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/news/$slug': {
+      id: '/news/$slug'
+      path: '/news/$slug'
+      fullPath: '/news/$slug'
+      preLoaderRoute: typeof NewsSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -219,9 +259,11 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   FundsRoute: FundsRoute,
+  GalleryRoute: GalleryRoute,
   NoticesRoute: NoticesRoute,
   EventsSlugRoute: EventsSlugRoute,
   MembersIdRoute: MembersIdRoute,
+  NewsSlugRoute: NewsSlugRoute,
   EventsIndexRoute: EventsIndexRoute,
   MembersIndexRoute: MembersIndexRoute,
   NewsIndexRoute: NewsIndexRoute,
