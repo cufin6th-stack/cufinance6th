@@ -9,7 +9,7 @@ const must = <T,>(r: { data: T | null; error: { message: string } | null }): T =
 
 export type PublicMember = {
   id: string;
-  full_name: string;
+  full_name: string | null;
   nickname: string | null;
   avatar_url: string | null;
   job_title: string | null;
@@ -78,9 +78,9 @@ export const eventQuery = (slug: string) =>
 export const publicMembersQuery = queryOptions({
   queryKey: ["members-public"],
   queryFn: async () =>
-    must<PublicMember[]>(
+    must<unknown>(
       await supabase.from("members_public").select("*").order("full_name", { ascending: true }),
-    ),
+    ) as PublicMember[],
 });
 
 export const fullMembersQuery = queryOptions({
