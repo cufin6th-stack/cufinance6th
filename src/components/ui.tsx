@@ -73,10 +73,10 @@ export function Field({
   children,
   className,
 }: {
-  label?: string;
-  hint?: string;
+  label?: string | undefined;
+  hint?: string | undefined;
   children: ReactNode;
-  className?: string;
+  className?: string | undefined;
 }) {
   return (
     <label className={cn("block", className)}>
