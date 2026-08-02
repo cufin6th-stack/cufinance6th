@@ -10,7 +10,7 @@ import { useAuth } from "@/lib/auth";
 import type { Profile } from "@/lib/auth";
 import { FIELDS } from "@/lib/format";
 
-export const Route = createFileRoute("/members")({
+export const Route = createFileRoute("/members/")({
   head: () => ({
     meta: [
       { title: "Member directory — Finance 6th Batch Alumni, CU" },
