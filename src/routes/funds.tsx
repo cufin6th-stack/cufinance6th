@@ -40,7 +40,11 @@ export const Route = createFileRoute("/funds")({
       },
     ],
   }),
-  component: Funds,
+  component: () => (
+    <MemberOnly what="The fund ledger">
+      <Funds />
+    </MemberOnly>
+  ),
 });
 
 type Contribution = {

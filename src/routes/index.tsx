@@ -17,13 +17,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "The permanent home of the sixth batch, Department of Finance, University of Chittagong: member directory, events, and a fully public fund ledger.",
+          "The permanent home of the sixth batch, Department of Finance, University of Chittagong: member directory, reunion events, notices, news and photographs.",
       },
       { property: "og:title", content: "Finance 6th Batch Alumni — University of Chittagong" },
       {
         property: "og:description",
         content:
-          "Member directory, reunion events and an open, line-by-line fund ledger for the sixth batch of Finance, University of Chittagong.",
+          "Member directory, reunion events and the lasting archive of the sixth batch of Finance, University of Chittagong.",
       },
     ],
   }),
@@ -78,8 +78,8 @@ function Home() {
               <Link to={(slide?.cta_url as "/members") ?? "/members"} className="contents">
                 <Btn variant="accent">{slide?.cta_label ?? "Browse the directory"}</Btn>
               </Link>
-              <Link to="/funds" className="contents">
-                <Btn variant="onDark">Open the ledger</Btn>
+              <Link to="/events" className="contents">
+                <Btn variant="onDark">See the events</Btn>
               </Link>
             </div>
           </div>
@@ -108,7 +108,7 @@ function Home() {
             { l: "Members on record", v: stats.data?.members ?? 0 },
             { l: "Cities worldwide", v: stats.data?.cities ?? 0 },
             { l: "Events organised", v: stats.data?.events ?? 0 },
-            { l: "Funds collected", v: bdt(stats.data?.funds ?? 0) },
+            { l: "Years as a batch", v: new Date().getFullYear() - 2008 },
           ].map((s) => (
             <div key={s.l} className="border-r border-b border-border-soft px-6 py-6 last:border-r-0 md:border-b-0">
               <div className="num text-[26px] font-semibold text-primary">{s.v}</div>
@@ -141,9 +141,6 @@ function Home() {
             this is the permanent record.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link to="/about" className="contents">
-              <Btn>Read more</Btn>
-            </Link>
             <Link to="/members" className="contents">
               <Btn variant="ghost">See the directory</Btn>
             </Link>
@@ -222,23 +219,20 @@ function Home() {
         </div>
       </section>
 
-      {/* Ledger CTA */}
+      {/* Gathering CTA */}
       <section className="wrap pb-20">
         <div className="rounded-md bg-ink px-8 py-12 text-center text-white sm:px-14">
-          <span className="kicker text-accent">Open books</span>
+          <span className="kicker text-accent">Stay in the record</span>
           <h2 className="mx-auto mt-3 max-w-[22ch] text-[30px] text-white">
-            Every contribution and every expense, on the record.
+            Every gathering, every headcount, kept properly.
           </h2>
           <p className="mx-auto mt-4 max-w-[54ch] text-[14.5px] text-white/65">
-            Contributions are verified by an admin before they appear. Entries are never deleted — a mistake
-            is corrected with a new, visible entry.
+            Registration runs through this site, so organisers know exactly who is coming — and the batch
+            keeps a permanent record of who was there.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link to="/funds" className="contents">
-              <Btn variant="accent">Open the fund ledger</Btn>
-            </Link>
             <Link to="/events" className="contents">
-              <Btn variant="onDark">
+              <Btn variant="accent">
                 <CalendarDays size={14} /> Register for an event
               </Btn>
             </Link>

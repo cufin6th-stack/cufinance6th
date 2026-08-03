@@ -95,18 +95,20 @@ function EventDetail() {
 
           <Card className="p-6">
             <h2 className="text-[19px]">Fees</h2>
-            <div className="mt-4 grid grid-cols-3 divide-x divide-border-soft text-center">
-              {[
-                { l: "Single", v: e.fee_single },
-                { l: "Couple", v: e.fee_couple },
-                { l: "Child", v: e.fee_child },
-              ].map((f) => (
-                <div key={f.l} className="px-3">
-                  <div className="num text-[20px] font-semibold text-primary">{bdt(f.v)}</div>
-                  <div className="kicker mt-1 text-faint">{f.l}</div>
-                </div>
-              ))}
-            </div>
+            <MemberOnly what="Event fees">
+              <div className="mt-4 grid grid-cols-3 divide-x divide-border-soft text-center">
+                {[
+                  { l: "Single", v: e.fee_single },
+                  { l: "Couple", v: e.fee_couple },
+                  { l: "Child", v: e.fee_child },
+                ].map((f) => (
+                  <div key={f.l} className="px-3">
+                    <div className="num text-[20px] font-semibold text-primary">{bdt(f.v)}</div>
+                    <div className="kicker mt-1 text-faint">{f.l}</div>
+                  </div>
+                ))}
+              </div>
+            </MemberOnly>
             {e.contact_info && (
               <p className="mt-5 border-t border-border-soft pt-4 text-[13.5px] text-muted-foreground">
                 {e.contact_info}
@@ -214,11 +216,7 @@ function RegisterForm({ event }: { event: EventRow }) {
         {m.isPending ? "Registering…" : "Confirm registration"}
       </Btn>
       <p className="text-[12.5px] text-faint">
-        After paying, log it on the{" "}
-        <Link to="/funds" className="font-semibold text-primary">
-          fund ledger
-        </Link>{" "}
-        so an admin can verify it.
+        Your registration is recorded straight away; an organiser will confirm the details with you.
       </p>
     </form>
   );
