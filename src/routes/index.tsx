@@ -219,23 +219,20 @@ function Home() {
         </div>
       </section>
 
-      {/* Ledger CTA */}
+      {/* Gathering CTA */}
       <section className="wrap pb-20">
         <div className="rounded-md bg-ink px-8 py-12 text-center text-white sm:px-14">
-          <span className="kicker text-accent">Open books</span>
+          <span className="kicker text-accent">Stay in the record</span>
           <h2 className="mx-auto mt-3 max-w-[22ch] text-[30px] text-white">
-            Every contribution and every expense, on the record.
+            Every gathering, every headcount, kept properly.
           </h2>
           <p className="mx-auto mt-4 max-w-[54ch] text-[14.5px] text-white/65">
-            Contributions are verified by an admin before they appear. Entries are never deleted — a mistake
-            is corrected with a new, visible entry.
+            Registration runs through this site, so organisers know exactly who is coming — and the batch
+            keeps a permanent record of who was there.
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
-            <Link to="/funds" className="contents">
-              <Btn variant="accent">Open the fund ledger</Btn>
-            </Link>
             <Link to="/events" className="contents">
-              <Btn variant="onDark">
+              <Btn variant="accent">
                 <CalendarDays size={14} /> Register for an event
               </Btn>
             </Link>
