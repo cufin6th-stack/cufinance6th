@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Briefcase, Lock, MapPin, Search } from "lucide-react";
+import { Briefcase, Lock, Mail, MapPin, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { PageBanner } from "@/components/layout";
