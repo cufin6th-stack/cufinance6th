@@ -216,11 +216,7 @@ function RegisterForm({ event }: { event: EventRow }) {
         {m.isPending ? "Registering…" : "Confirm registration"}
       </Btn>
       <p className="text-[12.5px] text-faint">
-        After paying, log it on the{" "}
-        <Link to="/funds" className="font-semibold text-primary">
-          fund ledger
-        </Link>{" "}
-        so an admin can verify it.
+        Your registration is recorded straight away; an organiser will confirm the details with you.
       </p>
     </form>
   );

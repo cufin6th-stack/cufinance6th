@@ -133,9 +133,12 @@ function Members() {
 
 function MemberCard({ m, canSeeContacts }: { m: PublicMember | Profile; canSeeContacts: boolean }) {
   const p = m as Profile;
+  const phone = canSeeContacts && !p.hide_phone ? p.phone : null;
+  const email = canSeeContacts ? p.email : null;
+
   return (
-    <Link to="/members/$id" params={{ id: m.id }} className="block">
-      <Card className="card-lift h-full p-5">
+    <Card className="card-lift h-full p-5">
+      <Link to="/members/$id" params={{ id: m.id }} className="block">
         <div className="flex items-start gap-4">
           <Avatar name={m.full_name} src={m.avatar_url} size={52} />
           <div className="min-w-0 flex-1">
@@ -153,16 +156,63 @@ function MemberCard({ m, canSeeContacts }: { m: PublicMember | Profile; canSeeCo
             </p>
           </div>
         </div>
-        <div className="mt-4 border-t border-border-soft pt-3 text-[12.5px]">
-          {canSeeContacts ? (
-            <span className="num text-primary">{p.hide_phone ? "Phone hidden by member" : p.phone || "—"}</span>
-          ) : (
-            <span className="flex items-center gap-1.5 text-faint">
-              <Lock size={11} /> Contact visible to members
-            </span>
-          )}
-        </div>
-      </Card>
-    </Link>
+      </Link>
+
+      <div className="mt-4 flex items-center gap-2 border-t border-border-soft pt-3">
+        {canSeeContacts ? (
+          <>
+            {phone ? (
+              <a href={`tel:${phone}`} aria-label={`Call ${m.full_name}`} className={ICON_BTN}>
+                <Phone size={14} />
+              </a>
+            ) : (
+              <span aria-label="Phone hidden by member" className={ICON_BTN_OFF}>
+                <Phone size={14} />
+              </span>
+            )}
+            {email ? (
+              <a href={`mailto:${email}`} aria-label={`Email ${m.full_name}`} className={ICON_BTN}>
+                <Mail size={14} />
+              </a>
+            ) : (
+              <span aria-label="No email on record" className={ICON_BTN_OFF}>
+                <Mail size={14} />
+              </span>
+            )}
+          </>
+        ) : (
+          <>
+            <Link
+              to="/auth"
+              search={{ mode: "signin" }}
+              aria-label="Sign in to see the phone number"
+              className={ICON_BTN}
+            >
+              <Phone size={14} />
+            </Link>
+            <Link
+              to="/auth"
+              search={{ mode: "signin" }}
+              aria-label="Sign in to see the email address"
+              className={ICON_BTN}
+            >
+              <Mail size={14} />
+            </Link>
+            <Link
+              to="/auth"
+              search={{ mode: "signin" }}
+              className="ml-auto flex items-center gap-1.5 text-[12px] text-faint hover:text-primary"
+            >
+              <Lock size={11} /> Sign in to contact
+            </Link>
+          </>
+        )}
+      </div>
+    </Card>
   );
 }
+
+const ICON_BTN =
+  "flex h-8 w-8 items-center justify-center rounded-full border border-border text-primary transition-colors hover:border-accent hover:bg-accent-soft hover:text-accent-foreground";
+const ICON_BTN_OFF =
+  "flex h-8 w-8 items-center justify-center rounded-full border border-border-soft text-faint";
