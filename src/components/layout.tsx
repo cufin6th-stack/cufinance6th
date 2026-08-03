@@ -12,7 +12,7 @@ export const NAV = [
   { to: "/about", label: "About" },
   { to: "/members", label: "Members" },
   { to: "/events", label: "Events" },
-  { to: "/funds", label: "Funds" },
+  
   { to: "/notices", label: "Notices" },
   { to: "/news", label: "News" },
   { to: "/gallery", label: "Gallery" },
@@ -223,7 +223,7 @@ export function Footer() {
             { to: "/", label: "Home" },
             { to: "/about", label: "About the batch" },
             { to: "/members", label: "Member directory" },
-            { to: "/funds", label: "Fund ledger" },
+            { to: "/events", label: "Events" },
             { to: "/privacy", label: "Privacy policy" },
           ].map((l) => (
             <Link key={l.to} to={l.to} className="block py-1 transition-colors hover:text-accent">

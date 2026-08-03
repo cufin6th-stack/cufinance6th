@@ -31,8 +31,8 @@ const PRINCIPLES = [
     d: "Membership is free and equal. There are no paid tiers, no donor badges and no ranking of members. Admins are caretakers, not a class above.",
   },
   {
-    t: "Open books by default",
-    d: "Every contribution and every expense is published on a public ledger. Entries are corrected by adding a visible new entry, never by deletion.",
+    t: "Accountable to the batch",
+    d: "Decisions, notices and event accounts are documented and shared with signed-in batchmates. Nothing is quietly erased — corrections are added as visible new entries.",
   },
   {
     t: "Privacy where it matters",
@@ -81,8 +81,8 @@ function About() {
             <Link to="/members" className="contents">
               <Btn>Browse the directory</Btn>
             </Link>
-            <Link to="/funds" className="contents">
-              <Btn variant="ghost">Audit the ledger</Btn>
+            <Link to="/events" className="contents">
+              <Btn variant="ghost">See the events</Btn>
             </Link>
           </div>
         </div>
