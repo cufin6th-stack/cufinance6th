@@ -70,8 +70,9 @@ function About() {
           </p>
           <p>
             This site fixes that. It is a small, deliberately boring institution: a directory that stays
-            current, an event register that produces real headcounts, a fund ledger anyone can audit, and an
-            archive of notices, news and photographs that will still be readable in twenty years.
+            current, an event register that produces real headcounts, member-only accounts kept for the
+            batch, and an archive of notices, news and photographs that will still be readable in twenty
+            years.
           </p>
           <p>
             It is maintained by volunteers from the batch and paid for by the batch. Nothing here is

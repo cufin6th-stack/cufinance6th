@@ -78,8 +78,8 @@ function Home() {
               <Link to={(slide?.cta_url as "/members") ?? "/members"} className="contents">
                 <Btn variant="accent">{slide?.cta_label ?? "Browse the directory"}</Btn>
               </Link>
-              <Link to="/funds" className="contents">
-                <Btn variant="onDark">Open the ledger</Btn>
+              <Link to="/events" className="contents">
+                <Btn variant="onDark">See the events</Btn>
               </Link>
             </div>
           </div>
@@ -108,7 +108,7 @@ function Home() {
             { l: "Members on record", v: stats.data?.members ?? 0 },
             { l: "Cities worldwide", v: stats.data?.cities ?? 0 },
             { l: "Events organised", v: stats.data?.events ?? 0 },
-            { l: "Funds collected", v: bdt(stats.data?.funds ?? 0) },
+            { l: "Years as a batch", v: new Date().getFullYear() - 2008 },
           ].map((s) => (
             <div key={s.l} className="border-r border-b border-border-soft px-6 py-6 last:border-r-0 md:border-b-0">
               <div className="num text-[26px] font-semibold text-primary">{s.v}</div>
@@ -141,9 +141,6 @@ function Home() {
             this is the permanent record.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link to="/about" className="contents">
-              <Btn>Read more</Btn>
-            </Link>
             <Link to="/members" className="contents">
               <Btn variant="ghost">See the directory</Btn>
             </Link>
