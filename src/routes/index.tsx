@@ -17,13 +17,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "The permanent home of the sixth batch, Department of Finance, University of Chittagong: member directory, events, and a fully public fund ledger.",
+          "The permanent home of the sixth batch, Department of Finance, University of Chittagong: member directory, reunion events, notices, news and photographs.",
       },
       { property: "og:title", content: "Finance 6th Batch Alumni — University of Chittagong" },
       {
         property: "og:description",
         content:
-          "Member directory, reunion events and an open, line-by-line fund ledger for the sixth batch of Finance, University of Chittagong.",
+          "Member directory, reunion events and the lasting archive of the sixth batch of Finance, University of Chittagong.",
       },
     ],
   }),
