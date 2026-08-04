@@ -209,6 +209,8 @@ export type Database = {
           fee_child: number | null
           fee_couple: number | null
           fee_single: number | null
+          finance_note: string | null
+          finance_published: boolean
           goal_amount: number | null
           id: string
           map_url: string | null
@@ -227,6 +229,8 @@ export type Database = {
           fee_child?: number | null
           fee_couple?: number | null
           fee_single?: number | null
+          finance_note?: string | null
+          finance_published?: boolean
           goal_amount?: number | null
           id?: string
           map_url?: string | null
@@ -245,6 +249,8 @@ export type Database = {
           fee_child?: number | null
           fee_couple?: number | null
           fee_single?: number | null
+          finance_note?: string | null
+          finance_published?: boolean
           goal_amount?: number | null
           id?: string
           map_url?: string | null
@@ -422,6 +428,44 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          audience: string
+          body: string | null
+          created_at: string
+          created_by: string | null
+          event_id: string | null
+          id: string
+          title: string
+        }
+        Insert: {
+          audience?: string
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          event_id?: string | null
+          id?: string
+          title: string
+        }
+        Update: {
+          audience?: string
+          body?: string | null
+          created_at?: string
+          created_by?: string | null
+          event_id?: string | null
+          id?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       posts: {
         Row: {
           body: string | null
@@ -539,6 +583,24 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           whatsapp?: string | null
+        }
+        Relationships: []
+      }
+      site_content: {
+        Row: {
+          data: Json
+          key: string
+          updated_at: string
+        }
+        Insert: {
+          data?: Json
+          key: string
+          updated_at?: string
+        }
+        Update: {
+          data?: Json
+          key?: string
+          updated_at?: string
         }
         Relationships: []
       }

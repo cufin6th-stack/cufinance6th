@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import heroCampus from "@/assets/hero-campus.jpg";
 import reunionImg from "@/assets/reunion.jpg";
 import { eventsQuery, noticesQuery, postsQuery, sliderQuery, statsQuery } from "@/lib/api";
-import { bdt, fmtDate } from "@/lib/format";
+import { useCopy } from "@/lib/copy";
+import { fmtDate } from "@/lib/format";
 import { Btn, Card, EmptyState, SectionHead } from "@/components/ui";
 import { EventCard } from "@/components/event-card";
 
@@ -31,6 +32,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const copy = useCopy("home");
   const slides = useQuery(sliderQuery);
   const stats = useQuery(statsQuery);
   const events = useQuery(eventsQuery);
@@ -129,17 +131,10 @@ function Home() {
           className="rounded-md border border-border object-cover"
         />
         <div>
-          <span className="kicker text-accent">About the batch</span>
-          <h2 className="mt-3 text-[30px]">We were a class. Now we are a record.</h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-            Our contact list used to live in a WhatsApp group where everything scrolls away. This site keeps
-            it: who is where, what they do, which events we ran, and exactly where each taka went — with
-            receipts.
-          </p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-            Membership is free and single-tier. One batch, everyone equal. WhatsApp stays for conversation;
-            this is the permanent record.
-          </p>
+          <span className="kicker text-accent">{copy["intro_kicker"]}</span>
+          <h2 className="mt-3 text-[30px]">{copy["intro_title"]}</h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">{copy["intro_body1"]}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{copy["intro_body2"]}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link to="/members" className="contents">
               <Btn variant="ghost">See the directory</Btn>
@@ -222,23 +217,18 @@ function Home() {
       {/* Gathering CTA */}
       <section className="wrap pb-20">
         <div className="rounded-md bg-ink px-8 py-12 text-center text-white sm:px-14">
-          <span className="kicker text-accent">Stay in the record</span>
-          <h2 className="mx-auto mt-3 max-w-[22ch] text-[30px] text-white">
-            Every gathering, every headcount, kept properly.
-          </h2>
-          <p className="mx-auto mt-4 max-w-[54ch] text-[14.5px] text-white/65">
-            Registration runs through this site, so organisers know exactly who is coming — and the batch
-            keeps a permanent record of who was there.
-          </p>
+          <span className="kicker text-accent">{copy["cta_kicker"]}</span>
+          <h2 className="mx-auto mt-3 max-w-[22ch] text-[30px] text-white">{copy["cta_title"]}</h2>
+          <p className="mx-auto mt-4 max-w-[54ch] text-[14.5px] text-white/65">{copy["cta_body"]}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link to="/events" className="contents">
               <Btn variant="accent">
-                <CalendarDays size={14} /> Register for an event
+                <CalendarDays size={14} /> {copy["cta_label"]}
               </Btn>
             </Link>
           </div>
           <p className="mt-6 flex items-center justify-center gap-1.5 text-[12.5px] text-white/45">
-            <MapPin size={12} /> Hathazari, Chattogram — since 2008
+            <MapPin size={12} /> {copy["cta_footnote"]}
           </p>
         </div>
       </section>
