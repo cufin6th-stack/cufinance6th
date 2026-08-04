@@ -31,6 +31,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  const copy = useCopy("home");
   const slides = useQuery(sliderQuery);
   const stats = useQuery(statsQuery);
   const events = useQuery(eventsQuery);
