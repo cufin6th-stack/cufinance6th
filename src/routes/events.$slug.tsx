@@ -134,6 +134,75 @@ function EventDetail() {
   );
 }
 
+function EventStatement({ event }: { event: EventRow }) {
+  const { isStaff } = useAuth();
+  const q = useQuery({
+    queryKey: ["event-statement", event.id],
+    enabled: event.finance_published || isStaff,
+    queryFn: async () => {
+      const [cons, exps] = await Promise.all([
+        supabase.from("contributions").select("amount, status").eq("event_id", event.id),
+        supabase.from("expenses").select("amount").eq("event_id", event.id),
+      ]);
+      if (cons.error) throw new Error(cons.error.message);
+      if (exps.error) throw new Error(exps.error.message);
+      const collected = (cons.data ?? [])
+        .filter((c) => c.status === "verified")
+        .reduce((s, c) => s + Number(c.amount), 0);
+      const spent = (exps.data ?? []).reduce((s, e) => s + Number(e.amount), 0);
+      return { collected, spent };
+    },
+  });
+
+  if (!event.finance_published && !isStaff) {
+    return (
+      <Card className="mt-6 p-6">
+        <h2 className="text-[19px]">Event statement</h2>
+        <p className="mt-2 text-[13.5px] text-muted-foreground">
+          The final accounts for this event have not been released yet. Members are notified as soon as an
+          admin publishes the statement.
+        </p>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="mt-6 p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h2 className="text-[19px]">Event statement</h2>
+        <Pill tone={event.finance_published ? "ok" : "wait"}>
+          {event.finance_published ? "Released to members" : "Admin preview — not released"}
+        </Pill>
+      </div>
+      {q.isPending ? (
+        <Spinner label="Loading statement" />
+      ) : (
+        <div className="mt-4 grid grid-cols-3 divide-x divide-border-soft text-center">
+          <div className="px-3">
+            <div className="num text-[20px] font-semibold text-ok">{bdt(q.data?.collected ?? 0)}</div>
+            <div className="kicker mt-1 text-faint">Collected</div>
+          </div>
+          <div className="px-3">
+            <div className="num text-[20px] font-semibold text-stop">{bdt(q.data?.spent ?? 0)}</div>
+            <div className="kicker mt-1 text-faint">Spent</div>
+          </div>
+          <div className="px-3">
+            <div className="num text-[20px] font-semibold text-primary">
+              {bdt((q.data?.collected ?? 0) - (q.data?.spent ?? 0))}
+            </div>
+            <div className="kicker mt-1 text-faint">Balance</div>
+          </div>
+        </div>
+      )}
+      {event.finance_note && (
+        <p className="mt-5 border-t border-border-soft pt-4 text-[13.5px] whitespace-pre-line text-muted-foreground">
+          {event.finance_note}
+        </p>
+      )}
+    </Card>
+  );
+}
+
 function RegisterForm({ event }: { event: EventRow }) {
   const { user, profile } = useAuth();
   const qc = useQueryClient();
