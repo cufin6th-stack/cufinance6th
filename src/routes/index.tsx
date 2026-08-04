@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import heroCampus from "@/assets/hero-campus.jpg";
 import reunionImg from "@/assets/reunion.jpg";
 import { eventsQuery, noticesQuery, postsQuery, sliderQuery, statsQuery } from "@/lib/api";
-import { bdt, fmtDate } from "@/lib/format";
+import { useCopy } from "@/lib/copy";
+import { fmtDate } from "@/lib/format";
 import { Btn, Card, EmptyState, SectionHead } from "@/components/ui";
 import { EventCard } from "@/components/event-card";
 
