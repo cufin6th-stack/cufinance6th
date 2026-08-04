@@ -154,6 +154,12 @@ export function Header() {
                     <Link to="/profile" className="block px-4 py-2.5 text-[13.5px] hover:bg-primary-soft">
                       My profile
                     </Link>
+                    <Link to="/notifications" className="block px-4 py-2.5 text-[13.5px] hover:bg-primary-soft">
+                      Member updates
+                    </Link>
+                    <Link to="/funds" className="block px-4 py-2.5 text-[13.5px] hover:bg-primary-soft">
+                      Batch accounts
+                    </Link>
                     {isStaff && (
                       <Link to="/admin" className="block px-4 py-2.5 text-[13.5px] hover:bg-primary-soft">
                         Admin panel
