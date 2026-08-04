@@ -43,7 +43,7 @@ export const siteContentQuery = (key: string) =>
     queryFn: async () => {
       const { data, error } = await supabase.from("site_content").select("data").eq("key", key).maybeSingle();
       if (error) throw new Error(error.message);
-      return ((data?.data ?? {}) as Copy) ?? {};
+      return (data?.data ?? {}) as Copy;
     },
   });
 
