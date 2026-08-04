@@ -36,6 +36,8 @@ export type EventRow = {
   goal_amount: number | null;
   contact_info: string | null;
   status: string;
+  finance_published: boolean;
+  finance_note: string | null;
 };
 
 export const statsQuery = queryOptions({
