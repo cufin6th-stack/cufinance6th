@@ -131,17 +131,10 @@ function Home() {
           className="rounded-md border border-border object-cover"
         />
         <div>
-          <span className="kicker text-accent">About the batch</span>
-          <h2 className="mt-3 text-[30px]">We were a class. Now we are a record.</h2>
-          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">
-            Our contact list used to live in a WhatsApp group where everything scrolls away. This site keeps
-            it: who is where, what they do, which events we ran, and exactly where each taka went — with
-            receipts.
-          </p>
-          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
-            Membership is free and single-tier. One batch, everyone equal. WhatsApp stays for conversation;
-            this is the permanent record.
-          </p>
+          <span className="kicker text-accent">{copy["intro_kicker"]}</span>
+          <h2 className="mt-3 text-[30px]">{copy["intro_title"]}</h2>
+          <p className="mt-4 text-[15px] leading-relaxed text-muted-foreground">{copy["intro_body1"]}</p>
+          <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{copy["intro_body2"]}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link to="/members" className="contents">
               <Btn variant="ghost">See the directory</Btn>
