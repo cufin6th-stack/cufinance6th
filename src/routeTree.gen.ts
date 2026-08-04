@@ -17,6 +17,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as FundsRouteImport } from './routes/funds'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NoticesRouteImport } from './routes/notices'
+import { Route as NotificationsRouteImport } from './routes/notifications'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ProfileRouteImport } from './routes/profile'
 import { Route as EventsIndexRouteImport } from './routes/events.index'
@@ -64,6 +65,11 @@ const GalleryRoute = GalleryRouteImport.update({
 const NoticesRoute = NoticesRouteImport.update({
   id: '/notices',
   path: '/notices',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PrivacyRoute = PrivacyRouteImport.update({
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
+  '/notifications': typeof NotificationsRoute
   '/privacy': typeof PrivacyRoute
   '/profile': typeof ProfileRoute
   '/events/$slug': typeof EventsSlugRoute
@@ -173,6 +182,7 @@ export interface FileRouteTypes {
     | '/funds'
     | '/gallery'
     | '/notices'
+    | '/notifications'
     | '/privacy'
     | '/profile'
     | '/events/$slug'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/funds'
     | '/gallery'
     | '/notices'
+    | '/notifications'
     | '/privacy'
     | '/profile'
     | '/events/$slug'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/funds'
     | '/gallery'
     | '/notices'
+    | '/notifications'
     | '/privacy'
     | '/profile'
     | '/events/$slug'
@@ -228,6 +240,7 @@ export interface RootRouteChildren {
   FundsRoute: typeof FundsRoute
   GalleryRoute: typeof GalleryRoute
   NoticesRoute: typeof NoticesRoute
+  NotificationsRoute: typeof NotificationsRoute
   PrivacyRoute: typeof PrivacyRoute
   ProfileRoute: typeof ProfileRoute
   EventsSlugRoute: typeof EventsSlugRoute
@@ -294,6 +307,13 @@ declare module '@tanstack/react-router' {
       path: '/notices'
       fullPath: '/notices'
       preLoaderRoute: typeof NoticesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/privacy': {
@@ -364,6 +384,7 @@ const rootRouteChildren: RootRouteChildren = {
   FundsRoute: FundsRoute,
   GalleryRoute: GalleryRoute,
   NoticesRoute: NoticesRoute,
+  NotificationsRoute: NotificationsRoute,
   PrivacyRoute: PrivacyRoute,
   ProfileRoute: ProfileRoute,
   EventsSlugRoute: EventsSlugRoute,
