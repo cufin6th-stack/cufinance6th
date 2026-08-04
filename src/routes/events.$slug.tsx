@@ -115,6 +115,10 @@ function EventDetail() {
               </p>
             )}
           </Card>
+
+          <MemberOnly what="The event statement">
+            <EventStatement event={e} />
+          </MemberOnly>
         </div>
 
         <div id="register">
