@@ -485,7 +485,7 @@ function Contributions({ eventOptions }: { eventOptions: { value: string; label:
     mutationFn: async (v: Row) => {
       const payload = {
         amount: Number(v["amount"] ?? 0),
-        method: (v["method"] as string) || null,
+        method: (v["method"] as string) || "bKash",
         trx_id: (v["trx_id"] as string) || null,
         event_id: (v["event_id"] as string) || null,
         note: (v["note"] as string) || null,
