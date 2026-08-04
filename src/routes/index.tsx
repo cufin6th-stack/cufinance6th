@@ -217,23 +217,18 @@ function Home() {
       {/* Gathering CTA */}
       <section className="wrap pb-20">
         <div className="rounded-md bg-ink px-8 py-12 text-center text-white sm:px-14">
-          <span className="kicker text-accent">Stay in the record</span>
-          <h2 className="mx-auto mt-3 max-w-[22ch] text-[30px] text-white">
-            Every gathering, every headcount, kept properly.
-          </h2>
-          <p className="mx-auto mt-4 max-w-[54ch] text-[14.5px] text-white/65">
-            Registration runs through this site, so organisers know exactly who is coming — and the batch
-            keeps a permanent record of who was there.
-          </p>
+          <span className="kicker text-accent">{copy["cta_kicker"]}</span>
+          <h2 className="mx-auto mt-3 max-w-[22ch] text-[30px] text-white">{copy["cta_title"]}</h2>
+          <p className="mx-auto mt-4 max-w-[54ch] text-[14.5px] text-white/65">{copy["cta_body"]}</p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <Link to="/events" className="contents">
               <Btn variant="accent">
-                <CalendarDays size={14} /> Register for an event
+                <CalendarDays size={14} /> {copy["cta_label"]}
               </Btn>
             </Link>
           </div>
           <p className="mt-6 flex items-center justify-center gap-1.5 text-[12.5px] text-white/45">
-            <MapPin size={12} /> Hathazari, Chattogram — since 2008
+            <MapPin size={12} /> {copy["cta_footnote"]}
           </p>
         </div>
       </section>
