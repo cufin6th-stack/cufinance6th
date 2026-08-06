@@ -72,13 +72,17 @@ type Expense = {
 function Funds() {
   const cons = useQuery(contributionsQuery);
   const exps = useQuery(expensesQuery);
+  const events = useQuery(eventsQuery);
   const [tab, setTab] = useState<"in" | "out">("in");
-  const [open, setOpen] = useState(false);
+  const [eventFilter, setEventFilter] = useState("");
+
+  const matches = (slug: string | null | undefined) =>
+    !eventFilter || (eventFilter === "general" ? !slug : slug === eventFilter);
 
   const contributions = ((cons.data ?? []) as unknown as Contribution[]).filter(
-    (c) => c.status === "verified",
+    (c) => c.status === "verified" && matches(c.events?.slug),
   );
-  const expenses = (exps.data ?? []) as unknown as Expense[];
+  const expenses = ((exps.data ?? []) as unknown as Expense[]).filter((e) => matches(e.events?.slug));
 
   const totalIn = contributions.reduce((s, c) => s + Number(c.amount), 0);
   const totalOut = expenses.reduce((s, e) => s + Number(e.amount), 0);
@@ -92,7 +96,29 @@ function Funds() {
       />
 
       <section className="wrap py-12">
-        <Card className="grid grid-cols-3">
+        <Card className="grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center">
+          <Field label="Filter by event" className="mb-0">
+            <Select
+              value={eventFilter}
+              onChange={(e) => setEventFilter(e.target.value)}
+              aria-label="Filter the ledger by event"
+            >
+              <option value="">All events &amp; general fund</option>
+              <option value="general">General fund only</option>
+              {(events.data ?? []).map((ev) => (
+                <option key={ev.id} value={ev.slug}>
+                  {ev.title}
+                </option>
+              ))}
+            </Select>
+          </Field>
+          <p className="text-[12.5px] text-faint sm:pt-5">
+            Showing <span className="num font-semibold text-primary">{contributions.length}</span> contributions and{" "}
+            <span className="num font-semibold text-primary">{expenses.length}</span> expenses.
+          </p>
+        </Card>
+
+        <Card className="mt-6 grid grid-cols-3">
           {[
             { l: "Collected", v: bdt(totalIn), c: "text-ok" },
             { l: "Spent", v: bdt(totalOut), c: "text-stop" },
@@ -114,6 +140,7 @@ function Funds() {
             value={tab}
             onChange={setTab}
           />
+
           <div className="flex gap-2">
             <Btn
               variant="ghost"
