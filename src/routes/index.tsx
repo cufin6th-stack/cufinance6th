@@ -80,9 +80,6 @@ function Home() {
               <Link to={(slide?.cta_url as "/members") ?? "/members"} className="contents">
                 <Btn variant="accent">{slide?.cta_label ?? "Browse the directory"}</Btn>
               </Link>
-              <Link to="/events" className="contents">
-                <Btn variant="onDark">See the events</Btn>
-              </Link>
             </div>
           </div>
 

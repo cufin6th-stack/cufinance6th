@@ -14,6 +14,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as ContributeRouteImport } from './routes/contribute'
 import { Route as FundsRouteImport } from './routes/funds'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NoticesRouteImport } from './routes/notices'
@@ -50,6 +51,11 @@ const AuthRoute = AuthRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContributeRoute = ContributeRouteImport.update({
+  id: '/contribute',
+  path: '/contribute',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FundsRoute = FundsRouteImport.update({
@@ -119,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/contribute': typeof ContributeRoute
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
@@ -138,6 +145,7 @@ export interface FileRoutesByTo {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/contribute': typeof ContributeRoute
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
@@ -158,6 +166,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRoute
   '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
+  '/contribute': typeof ContributeRoute
   '/funds': typeof FundsRoute
   '/gallery': typeof GalleryRoute
   '/notices': typeof NoticesRoute
@@ -179,6 +188,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/contact'
+    | '/contribute'
     | '/funds'
     | '/gallery'
     | '/notices'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/contact'
+    | '/contribute'
     | '/funds'
     | '/gallery'
     | '/notices'
@@ -217,6 +228,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/auth'
     | '/contact'
+    | '/contribute'
     | '/funds'
     | '/gallery'
     | '/notices'
@@ -237,6 +249,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRoute
   AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
+  ContributeRoute: typeof ContributeRoute
   FundsRoute: typeof FundsRoute
   GalleryRoute: typeof GalleryRoute
   NoticesRoute: typeof NoticesRoute
@@ -286,6 +299,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contribute': {
+      id: '/contribute'
+      path: '/contribute'
+      fullPath: '/contribute'
+      preLoaderRoute: typeof ContributeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/funds': {
@@ -381,6 +401,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRoute,
   AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
+  ContributeRoute: ContributeRoute,
   FundsRoute: FundsRoute,
   GalleryRoute: GalleryRoute,
   NoticesRoute: NoticesRoute,

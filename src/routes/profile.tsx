@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { MemberOnly } from "@/components/guards";
+import { ImageUpload } from "@/components/image-upload";
 import { PageBanner } from "@/components/layout";
 import { Avatar, Btn, Card, Field, Input, Pill, Select, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
@@ -86,14 +87,46 @@ function ProfilePage() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const avatarSave = useMutation({
+    mutationFn: async (url: string) => {
+      if (!profile?.id) throw new Error("Profile not ready yet");
+      const { error } = await supabase
+        .from("profiles")
+        .update({ avatar_url: url || null })
+        .eq("id", profile.id);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: async () => {
+      toast.success("Profile picture updated.");
+      await refreshProfile();
+      void qc.invalidateQueries({ queryKey: ["members-public"] });
+      void qc.invalidateQueries({ queryKey: ["members-full"] });
+      void qc.invalidateQueries({ queryKey: ["all-profiles"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF({ ...f, [k]: e.target.value });
 
   return (
     <>
       <PageBanner kicker="My account" title="Keep your entry current." lede="Only you can edit this page.">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <Avatar name={f.full_name || "Member"} src={f.avatar_url} size={54} className="ring-4 ring-white/15" />
           <Pill tone={isApproved ? "ok" : "wait"}>{isApproved ? "Approved member" : "Awaiting approval"}</Pill>
+          <div className="rounded-sm bg-white/10 p-3">
+            <ImageUpload
+              value={f.avatar_url}
+              folder="avatars"
+              onChange={(url) => {
+                setF((p) => ({ ...p, avatar_url: url }));
+                avatarSave.mutate(url);
+              }}
+            />
+            <p className="mt-1.5 text-[11.5px] text-white/70">
+              Your profile picture appears in the member directory.
+            </p>
+          </div>
         </div>
       </PageBanner>
 

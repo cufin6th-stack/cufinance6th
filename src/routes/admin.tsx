@@ -1,11 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
 import { CrudSection, EditForm, type CrudConfig, type FieldDef, type Row } from "@/components/admin/crud";
 import { AdminOnly } from "@/components/guards";
-import { Avatar, Btn, Card, EmptyState, Pill, Spinner, StatusPill, Tabs } from "@/components/ui";
+import { Avatar, Btn, Card, EmptyState, Pill, Spinner, StatusPill } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import {
   allProfilesQuery,
@@ -56,6 +57,25 @@ type Tab =
   | "notify"
   | "pages"
   | "messages";
+
+const MENU: { value: Tab; label: string }[] = [
+  { value: "approvals", label: "Approvals" },
+  { value: "members", label: "Members" },
+  { value: "roles", label: "Roles" },
+  { value: "events", label: "Events" },
+  { value: "registrations", label: "Registrations" },
+  { value: "contributions", label: "Contributions" },
+  { value: "expenses", label: "Expenses" },
+  { value: "notify", label: "Notify members" },
+  { value: "notices", label: "Notices" },
+  { value: "news", label: "News" },
+  { value: "albums", label: "Albums" },
+  { value: "photos", label: "Photos" },
+  { value: "slider", label: "Home slider" },
+  { value: "announcements", label: "Announcement bar" },
+  { value: "pages", label: "Page text" },
+  { value: "messages", label: "Messages" },
+];
 
 const STATUS_OPTIONS = [
   { value: "published", label: "Published" },
@@ -324,39 +344,39 @@ function Admin() {
         </p>
       </div>
 
-      <div className="mt-8">
-        <Tabs
-          tabs={[
-            { value: "approvals" as Tab, label: "Approvals" },
-            { value: "members" as Tab, label: "Members" },
-            { value: "roles" as Tab, label: "Roles" },
-            { value: "events" as Tab, label: "Events" },
-            { value: "registrations" as Tab, label: "Registrations" },
-            { value: "contributions" as Tab, label: "Contributions" },
-            { value: "expenses" as Tab, label: "Expenses" },
-            { value: "notify" as Tab, label: "Notify members" },
-            { value: "notices" as Tab, label: "Notices" },
-            { value: "news" as Tab, label: "News" },
-            { value: "albums" as Tab, label: "Albums" },
-            { value: "photos" as Tab, label: "Photos" },
-            { value: "slider" as Tab, label: "Home slider" },
-            { value: "announcements" as Tab, label: "Announcement bar" },
-            { value: "pages" as Tab, label: "Page text" },
-            { value: "messages" as Tab, label: "Messages" },
-          ]}
-          value={tab}
-          onChange={setTab}
-        />
+      <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
+        <Card className="h-max divide-y divide-border-soft overflow-hidden">
+          {MENU.map((item) => {
+            const active = tab === item.value;
+            return (
+              <button
+                key={item.value}
+                type="button"
+                onClick={() => setTab(item.value)}
+                aria-current={active ? "page" : undefined}
+                className={`flex w-full items-center justify-between px-4 py-3 text-left text-[13.5px] transition-colors ${
+                  active
+                    ? "bg-accent-soft font-semibold text-primary"
+                    : "text-muted-foreground hover:bg-background hover:text-primary"
+                }`}
+              >
+                <span>{item.label}</span>
+                <ChevronRight size={13} className={active ? "text-accent" : "text-faint"} />
+              </button>
+            );
+          })}
+        </Card>
+
+        <div className="min-w-0">
+          {tab === "approvals" && <Approvals />}
+          {tab === "contributions" && <Contributions eventOptions={eventOptions} />}
+          {tab === "registrations" && <Registrations />}
+          {tab === "messages" && <Messages />}
+          {tab === "pages" && <PagesEditor />}
+          {configs[tab] && <CrudSection key={tab} config={configs[tab]!} />}
+        </div>
       </div>
 
-      <div className="pt-8">
-        {tab === "approvals" && <Approvals />}
-        {tab === "contributions" && <Contributions eventOptions={eventOptions} />}
-        {tab === "registrations" && <Registrations />}
-        {tab === "messages" && <Messages />}
-        {tab === "pages" && <PagesEditor />}
-        {configs[tab] && <CrudSection key={tab} config={configs[tab]!} />}
-      </div>
     </section>
   );
 }
