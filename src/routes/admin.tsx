@@ -6,7 +6,7 @@ import { toast } from "sonner";
 
 import { CrudSection, EditForm, type CrudConfig, type FieldDef, type Row } from "@/components/admin/crud";
 import { AdminOnly } from "@/components/guards";
-import { Avatar, Btn, Card, EmptyState, Pill, Spinner, StatusPill, Tabs } from "@/components/ui";
+import { Avatar, Btn, Card, EmptyState, Pill, Spinner, StatusPill } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import {
   allProfilesQuery,
