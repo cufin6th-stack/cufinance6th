@@ -1,8 +1,7 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Download, Plus } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 
 import { MemberOnly } from "@/components/guards";
 import { PageBanner } from "@/components/layout";
@@ -262,83 +261,6 @@ function Td({ children, className }: { children: React.ReactNode; className?: st
   return <td className={`px-4 py-3 align-middle ${className ?? ""}`}>{children}</td>;
 }
 
-function ContributionForm({ onDone }: { onDone: () => void }) {
-  const { user, profile } = useAuth();
-  const events = useQuery(eventsQuery);
-  const qc = useQueryClient();
-  const [amount, setAmount] = useState("");
-  const [method, setMethod] = useState("bKash");
-  const [trx, setTrx] = useState("");
-  const [eventId, setEventId] = useState("");
-  const [note, setNote] = useState("");
-
-  const m = useMutation({
-    mutationFn: async () => {
-      const { error } = await supabase.from("contributions").insert({
-        profile_id: profile?.id ?? null,
-        user_id: user?.id ?? null,
-        event_id: eventId || null,
-        amount: Number(amount),
-        method,
-        trx_id: trx || null,
-        note: note || null,
-        status: "pending",
-      });
-      if (error) throw new Error(error.message);
-    },
-    onSuccess: () => {
-      toast.success("Logged. An admin will verify it before it appears on the ledger.");
-      void qc.invalidateQueries({ queryKey: ["contributions"] });
-      onDone();
-    },
-    onError: (e: Error) => toast.error(e.message),
-  });
-
-  return (
-    <form
-      className="mt-5 grid gap-4 md:grid-cols-2"
-      onSubmit={(e) => {
-        e.preventDefault();
-        m.mutate();
-      }}
-    >
-      <Field label="Amount (BDT)">
-        <Input required type="number" min={1} value={amount} onChange={(e) => setAmount(e.target.value)} />
-      </Field>
-      <Field label="Method">
-        <Select value={method} onChange={(e) => setMethod(e.target.value)}>
-          {["bKash", "Nagad", "Rocket", "Bank transfer", "Cash"].map((s) => (
-            <option key={s}>{s}</option>
-          ))}
-        </Select>
-      </Field>
-      <Field label="Transaction ID" hint="From your bKash/Nagad/bank receipt">
-        <Input value={trx} onChange={(e) => setTrx(e.target.value)} />
-      </Field>
-      <Field label="For which event?" hint="Leave blank for the general fund">
-        <Select value={eventId} onChange={(e) => setEventId(e.target.value)}>
-          <option value="">General fund</option>
-          {(events.data ?? []).map((ev) => (
-            <option key={ev.id} value={ev.id}>
-              {ev.title}
-            </option>
-          ))}
-        </Select>
-      </Field>
-      <Field label="Note" className="md:col-span-2">
-        <Textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} />
-      </Field>
-      <div className="flex gap-2 md:col-span-2">
-        <Btn type="submit" disabled={m.isPending}>
-          {m.isPending ? "Submitting…" : "Submit for verification"}
-        </Btn>
-        <Btn type="button" variant="quiet" onClick={onDone}>
-          Cancel
-        </Btn>
-      </div>
-    </form>
-  );
-}
 
 function MyContributions() {
   const { user, profile } = useAuth();
