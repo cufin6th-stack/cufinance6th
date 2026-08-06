@@ -171,20 +171,14 @@ function Funds() {
             >
               <Download size={13} /> CSV
             </Btn>
-            <Btn size="sm" onClick={() => setOpen((v) => !v)}>
-              <Plus size={13} /> Log a contribution
-            </Btn>
+            <Link to="/contribute" className="contents">
+              <Btn size="sm">
+                <Plus size={13} /> Log a contribution
+              </Btn>
+            </Link>
           </div>
         </div>
 
-        {open && (
-          <Card className="mt-5 p-6">
-            <h2 className="text-[18px]">Log your contribution</h2>
-            <MemberOnly what="Contribution logging">
-              <ContributionForm onDone={() => setOpen(false)} />
-            </MemberOnly>
-          </Card>
-        )}
 
         <div className="pt-8">
           {cons.isPending || exps.isPending ? (
