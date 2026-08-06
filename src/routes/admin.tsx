@@ -324,39 +324,39 @@ function Admin() {
         </p>
       </div>
 
-      <div className="mt-8">
-        <Tabs
-          tabs={[
-            { value: "approvals" as Tab, label: "Approvals" },
-            { value: "members" as Tab, label: "Members" },
-            { value: "roles" as Tab, label: "Roles" },
-            { value: "events" as Tab, label: "Events" },
-            { value: "registrations" as Tab, label: "Registrations" },
-            { value: "contributions" as Tab, label: "Contributions" },
-            { value: "expenses" as Tab, label: "Expenses" },
-            { value: "notify" as Tab, label: "Notify members" },
-            { value: "notices" as Tab, label: "Notices" },
-            { value: "news" as Tab, label: "News" },
-            { value: "albums" as Tab, label: "Albums" },
-            { value: "photos" as Tab, label: "Photos" },
-            { value: "slider" as Tab, label: "Home slider" },
-            { value: "announcements" as Tab, label: "Announcement bar" },
-            { value: "pages" as Tab, label: "Page text" },
-            { value: "messages" as Tab, label: "Messages" },
-          ]}
-          value={tab}
-          onChange={setTab}
-        />
+      <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
+        <Card as="nav" aria-label="Admin sections" className="h-max divide-y divide-border-soft overflow-hidden">
+          {MENU.map((item) => {
+            const active = tab === item.value;
+            return (
+              <button
+                key={item.value}
+                type="button"
+                onClick={() => setTab(item.value)}
+                aria-current={active ? "page" : undefined}
+                className={`flex w-full items-center justify-between px-4 py-3 text-left text-[13.5px] transition-colors ${
+                  active
+                    ? "bg-accent-soft font-semibold text-primary"
+                    : "text-muted-foreground hover:bg-background hover:text-primary"
+                }`}
+              >
+                <span>{item.label}</span>
+                <ChevronRight size={13} className={active ? "text-accent" : "text-faint"} />
+              </button>
+            );
+          })}
+        </Card>
+
+        <div className="min-w-0">
+          {tab === "approvals" && <Approvals />}
+          {tab === "contributions" && <Contributions eventOptions={eventOptions} />}
+          {tab === "registrations" && <Registrations />}
+          {tab === "messages" && <Messages />}
+          {tab === "pages" && <PagesEditor />}
+          {configs[tab] && <CrudSection key={tab} config={configs[tab]!} />}
+        </div>
       </div>
 
-      <div className="pt-8">
-        {tab === "approvals" && <Approvals />}
-        {tab === "contributions" && <Contributions eventOptions={eventOptions} />}
-        {tab === "registrations" && <Registrations />}
-        {tab === "messages" && <Messages />}
-        {tab === "pages" && <PagesEditor />}
-        {configs[tab] && <CrudSection key={tab} config={configs[tab]!} />}
-      </div>
     </section>
   );
 }
