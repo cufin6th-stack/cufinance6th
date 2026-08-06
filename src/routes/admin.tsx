@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
+import { ChevronRight } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -56,6 +57,25 @@ type Tab =
   | "notify"
   | "pages"
   | "messages";
+
+const MENU: { value: Tab; label: string }[] = [
+  { value: "approvals", label: "Approvals" },
+  { value: "members", label: "Members" },
+  { value: "roles", label: "Roles" },
+  { value: "events", label: "Events" },
+  { value: "registrations", label: "Registrations" },
+  { value: "contributions", label: "Contributions" },
+  { value: "expenses", label: "Expenses" },
+  { value: "notify", label: "Notify members" },
+  { value: "notices", label: "Notices" },
+  { value: "news", label: "News" },
+  { value: "albums", label: "Albums" },
+  { value: "photos", label: "Photos" },
+  { value: "slider", label: "Home slider" },
+  { value: "announcements", label: "Announcement bar" },
+  { value: "pages", label: "Page text" },
+  { value: "messages", label: "Messages" },
+];
 
 const STATUS_OPTIONS = [
   { value: "published", label: "Published" },
@@ -325,7 +345,7 @@ function Admin() {
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
-        <Card as="nav" aria-label="Admin sections" className="h-max divide-y divide-border-soft overflow-hidden">
+        <Card className="h-max divide-y divide-border-soft overflow-hidden">
           {MENU.map((item) => {
             const active = tab === item.value;
             return (
