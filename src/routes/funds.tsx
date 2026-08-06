@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Download, Plus } from "lucide-react";
 import { useState } from "react";
 
@@ -11,12 +11,10 @@ import {
   Card,
   EmptyState,
   Field,
-  Input,
   Select,
   Spinner,
   StatusPill,
   Tabs,
-  Textarea,
 } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { contributionsQuery, eventsQuery, expensesQuery } from "@/lib/api";
