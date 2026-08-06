@@ -91,9 +91,22 @@ function ProfilePage() {
   return (
     <>
       <PageBanner kicker="My account" title="Keep your entry current." lede="Only you can edit this page.">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <Avatar name={f.full_name || "Member"} src={f.avatar_url} size={54} className="ring-4 ring-white/15" />
           <Pill tone={isApproved ? "ok" : "wait"}>{isApproved ? "Approved member" : "Awaiting approval"}</Pill>
+          <div className="rounded-sm bg-white/10 p-3">
+            <ImageUpload
+              value={f.avatar_url}
+              folder="avatars"
+              onChange={(url) => {
+                setF((p) => ({ ...p, avatar_url: url }));
+                avatarSave.mutate(url);
+              }}
+            />
+            <p className="mt-1.5 text-[11.5px] text-white/70">
+              Your profile picture appears in the member directory.
+            </p>
+          </div>
         </div>
       </PageBanner>
 
