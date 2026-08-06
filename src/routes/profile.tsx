@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { MemberOnly } from "@/components/guards";
+import { ImageUpload } from "@/components/image-upload";
 import { PageBanner } from "@/components/layout";
 import { Avatar, Btn, Card, Field, Input, Pill, Select, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
@@ -82,6 +83,25 @@ function ProfilePage() {
       await refreshProfile();
       void qc.invalidateQueries({ queryKey: ["members-public"] });
       void qc.invalidateQueries({ queryKey: ["members-full"] });
+    },
+    onError: (e: Error) => toast.error(e.message),
+  });
+
+  const avatarSave = useMutation({
+    mutationFn: async (url: string) => {
+      if (!profile?.id) throw new Error("Profile not ready yet");
+      const { error } = await supabase
+        .from("profiles")
+        .update({ avatar_url: url || null })
+        .eq("id", profile.id);
+      if (error) throw new Error(error.message);
+    },
+    onSuccess: async () => {
+      toast.success("Profile picture updated.");
+      await refreshProfile();
+      void qc.invalidateQueries({ queryKey: ["members-public"] });
+      void qc.invalidateQueries({ queryKey: ["members-full"] });
+      void qc.invalidateQueries({ queryKey: ["all-profiles"] });
     },
     onError: (e: Error) => toast.error(e.message),
   });
