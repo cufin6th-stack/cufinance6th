@@ -173,6 +173,20 @@ function ProfilePage() {
                 ))}
               </Select>
             </Field>
+            <Field label="Birth day" hint="Day of the month">
+              <Input type="number" min={1} max={31} value={f.birth_day} onChange={set("birth_day")} />
+            </Field>
+            <Field label="Birth month">
+              <Select value={f.birth_month} onChange={set("birth_month")}>
+                <option value="">Select</option>
+                {MONTHS.map((mo, i) => (
+                  <option key={mo} value={String(i + 1)}>
+                    {mo}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+
             <Field label="City">
               <Input value={f.city} onChange={set("city")} />
             </Field>
