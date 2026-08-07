@@ -61,8 +61,8 @@ function MemberDetail() {
     queryFn: async () => {
       const [regs, cons] = await Promise.all([
         supabase
-          .from("event_registrations")
-          .select("id, created_at, attend_type, guests, total_amount, events(title, slug, event_date)")
+          .from("event_registrations_summary")
+          .select("id, created_at, events(title, slug, event_date)")
           .eq("profile_id", id)
           .order("created_at", { ascending: false }),
         supabase
@@ -76,11 +76,9 @@ function MemberDetail() {
         regs: (regs.data ?? []) as unknown as {
           id: string;
           created_at: string;
-          attend_type: string | null;
-          guests: number | null;
-          total_amount: number | null;
           events: { title: string; slug: string; event_date: string } | null;
         }[],
+
         cons: (cons.data ?? []) as unknown as {
           id: string;
           amount: number;
@@ -153,9 +151,9 @@ function MemberDetail() {
                         <li key={r.id} className="text-[13.5px]">
                           <span className="font-semibold text-primary">{r.events?.title ?? "Event"}</span>
                           <span className="num block text-[12px] text-faint">
-                            {fmtDate(r.events?.event_date)} · {r.attend_type ?? "single"}
-                            {(r.guests ?? 0) > 0 ? ` · ${r.guests} guest(s)` : ""}
+                            {fmtDate(r.events?.event_date)}
                           </span>
+
                         </li>
                       ))
                     ) : (

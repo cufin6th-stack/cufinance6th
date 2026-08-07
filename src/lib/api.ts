@@ -160,9 +160,10 @@ export const registrationCountQuery = (eventId: string | undefined) =>
     enabled: !!eventId,
     queryFn: async () => {
       const { count, error } = await supabase
-        .from("event_registrations")
+        .from("event_registrations_summary")
         .select("id", { count: "exact", head: true })
         .eq("event_id", eventId!);
+
       if (error) throw new Error(error.message);
       return count ?? 0;
     },

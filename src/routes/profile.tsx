@@ -9,7 +9,7 @@ import { PageBanner } from "@/components/layout";
 import { Avatar, Btn, Card, Field, Input, Pill, Select, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { FIELDS } from "@/lib/format";
+import { FIELDS, MONTHS } from "@/lib/format";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
@@ -46,12 +46,15 @@ function ProfilePage() {
     whatsapp: profile?.whatsapp ?? "",
     email: profile?.email ?? "",
     blood_group: profile?.blood_group ?? "",
+    birth_day: profile?.birth_day ? String(profile.birth_day) : "",
+    birth_month: profile?.birth_month ? String(profile.birth_month) : "",
     facebook_url: profile?.facebook_url ?? "",
     linkedin_url: profile?.linkedin_url ?? "",
     avatar_url: profile?.avatar_url ?? "",
     bio: profile?.bio ?? "",
     hide_phone: profile?.hide_phone ?? false,
   }));
+
 
   const m = useMutation({
     mutationFn: async () => {
@@ -70,10 +73,13 @@ function ProfilePage() {
           whatsapp: f.whatsapp || null,
           email: f.email || null,
           blood_group: f.blood_group || null,
+          birth_day: f.birth_day ? Number(f.birth_day) : null,
+          birth_month: f.birth_month ? Number(f.birth_month) : null,
           facebook_url: f.facebook_url || null,
           linkedin_url: f.linkedin_url || null,
           avatar_url: f.avatar_url || null,
           bio: f.bio || null,
+
         })
         .eq("id", profile.id);
       if (error) throw new Error(error.message);
@@ -167,6 +173,20 @@ function ProfilePage() {
                 ))}
               </Select>
             </Field>
+            <Field label="Birth day" hint="Day of the month">
+              <Input type="number" min={1} max={31} value={f.birth_day} onChange={set("birth_day")} />
+            </Field>
+            <Field label="Birth month">
+              <Select value={f.birth_month} onChange={set("birth_month")}>
+                <option value="">Select</option>
+                {MONTHS.map((mo, i) => (
+                  <option key={mo} value={String(i + 1)}>
+                    {mo}
+                  </option>
+                ))}
+              </Select>
+            </Field>
+
             <Field label="City">
               <Input value={f.city} onChange={set("city")} />
             </Field>

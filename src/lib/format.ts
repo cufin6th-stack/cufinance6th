@@ -19,11 +19,27 @@ export const fmtDateTime = (d: string | Date | null | undefined) =>
       })
     : "";
 
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 export const dayMonth = (day?: number | null, month?: number | null) => {
   if (!day || !month) return "";
   const m = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   return `${day} ${m[month] ?? ""}`;
 };
+
 
 export const initials = (name: string) =>
   name

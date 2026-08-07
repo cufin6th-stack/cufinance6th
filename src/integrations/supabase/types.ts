@@ -627,6 +627,49 @@ export type Database = {
       }
     }
     Views: {
+      event_registrations_summary: {
+        Row: {
+          created_at: string | null
+          event_id: string | null
+          id: string | null
+          profile_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          event_id?: string | null
+          id?: string | null
+          profile_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          event_id?: string | null
+          id?: string | null
+          profile_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_registrations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "members_public"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_registrations_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       members_public: {
         Row: {
           avatar_url: string | null
