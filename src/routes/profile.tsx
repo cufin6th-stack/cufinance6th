@@ -9,7 +9,7 @@ import { PageBanner } from "@/components/layout";
 import { Avatar, Btn, Card, Field, Input, Pill, Select, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/lib/auth";
-import { FIELDS } from "@/lib/format";
+import { FIELDS, MONTHS } from "@/lib/format";
 
 export const Route = createFileRoute("/profile")({
   head: () => ({
