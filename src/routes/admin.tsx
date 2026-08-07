@@ -302,8 +302,24 @@ function Admin() {
         { name: "facebook_url", label: "Facebook", type: "text" },
         { name: "linkedin_url", label: "LinkedIn", type: "text" },
         { name: "blood_group", label: "Blood group", type: "text" },
+        {
+          name: "birth_day",
+          label: "Birth day",
+          type: "number",
+          hint: "Day of the month, 1–31",
+        },
+        {
+          name: "birth_month",
+          label: "Birth month",
+          type: "select",
+          options: [
+            { value: "", label: "Select month" },
+            ...MONTHS.map((m, i) => ({ value: String(i + 1), label: m })),
+          ],
+        },
         { name: "section", label: "Section", type: "text" },
         { name: "roll", label: "Roll", type: "text" },
+
         { name: "bio", label: "Bio", type: "textarea" },
         { name: "hide_phone", label: "Hide phone from members", type: "bool" },
         { name: "is_approved", label: "Approved member", type: "bool" },
