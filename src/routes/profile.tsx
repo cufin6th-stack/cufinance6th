@@ -46,12 +46,15 @@ function ProfilePage() {
     whatsapp: profile?.whatsapp ?? "",
     email: profile?.email ?? "",
     blood_group: profile?.blood_group ?? "",
+    birth_day: profile?.birth_day ? String(profile.birth_day) : "",
+    birth_month: profile?.birth_month ? String(profile.birth_month) : "",
     facebook_url: profile?.facebook_url ?? "",
     linkedin_url: profile?.linkedin_url ?? "",
     avatar_url: profile?.avatar_url ?? "",
     bio: profile?.bio ?? "",
     hide_phone: profile?.hide_phone ?? false,
   }));
+
 
   const m = useMutation({
     mutationFn: async () => {
