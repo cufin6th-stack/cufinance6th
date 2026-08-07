@@ -151,9 +151,9 @@ function MemberDetail() {
                         <li key={r.id} className="text-[13.5px]">
                           <span className="font-semibold text-primary">{r.events?.title ?? "Event"}</span>
                           <span className="num block text-[12px] text-faint">
-                            {fmtDate(r.events?.event_date)} · {r.attend_type ?? "single"}
-                            {(r.guests ?? 0) > 0 ? ` · ${r.guests} guest(s)` : ""}
+                            {fmtDate(r.events?.event_date)}
                           </span>
+
                         </li>
                       ))
                     ) : (
