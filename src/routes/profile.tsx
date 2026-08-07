@@ -73,10 +73,13 @@ function ProfilePage() {
           whatsapp: f.whatsapp || null,
           email: f.email || null,
           blood_group: f.blood_group || null,
+          birth_day: f.birth_day ? Number(f.birth_day) : null,
+          birth_month: f.birth_month ? Number(f.birth_month) : null,
           facebook_url: f.facebook_url || null,
           linkedin_url: f.linkedin_url || null,
           avatar_url: f.avatar_url || null,
           bio: f.bio || null,
+
         })
         .eq("id", profile.id);
       if (error) throw new Error(error.message);
