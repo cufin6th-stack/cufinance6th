@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { BellRing, Receipt } from "lucide-react";
 
 import { MemberOnly } from "@/components/guards";
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Card, EmptyState, Pill, Spinner } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { fmtDate } from "@/lib/format";
@@ -53,11 +53,7 @@ function Updates() {
 
   return (
     <>
-      <PageBanner
-        kicker="Members only"
-        title="Updates from the caretakers."
-        lede="Announcements, reminders and released event statements — sent to signed-in batchmates."
-      />
+      <CopyBanner page="notifications" />
       <section className="wrap py-12">
         {q.isPending ? (
           <Spinner label="Loading updates" />

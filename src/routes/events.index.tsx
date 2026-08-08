@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { EmptyState, Spinner, Tabs } from "@/components/ui";
 import { EventCard } from "@/components/event-card";
 import { eventsQuery } from "@/lib/api";
@@ -38,11 +38,7 @@ function Events() {
 
   return (
     <>
-      <PageBanner
-        kicker="Events"
-        title="We still show up for each other."
-        lede="Every gathering is registered here, so the cook knows the headcount and the batch knows the cost."
-      />
+      <CopyBanner page="events" />
       <section className="wrap py-12">
         <Tabs
           tabs={[

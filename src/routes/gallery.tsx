@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { X } from "lucide-react";
 import { useState } from "react";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Card, EmptyState, Spinner } from "@/components/ui";
 import { albumsQuery } from "@/lib/api";
 
@@ -38,11 +38,7 @@ function Gallery() {
 
   return (
     <>
-      <PageBanner
-        kicker="Gallery"
-        title="Proof that we were there."
-        lede="Photographs from the campus years and every gathering since, kept where they will not disappear."
-      />
+      <CopyBanner page="gallery" />
       <section className="wrap py-12">
         {q.isPending ? (
           <Spinner label="Loading gallery" />

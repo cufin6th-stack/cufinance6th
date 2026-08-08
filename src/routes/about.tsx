@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 
 import reunion from "@/assets/reunion.jpg";
 import hero from "@/assets/hero-campus.jpg";
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Btn, Card } from "@/components/ui";
 import { pairs, paragraphs, useCopy } from "@/lib/copy";
 
@@ -32,12 +32,7 @@ function About() {
 
   return (
     <>
-      <PageBanner
-        kicker="About"
-        title={copy["banner_title"] ?? ""}
-        lede={copy["banner_lede"] ?? ""}
-        image={hero}
-      />
+      <CopyBanner page="about" fallbackImage={hero} />
 
       <section className="wrap grid items-start gap-12 py-20 md:grid-cols-[1.15fr_1fr]">
         <div className="space-y-4 text-[15px] leading-relaxed text-muted-foreground">
@@ -56,7 +51,7 @@ function About() {
           </div>
         </div>
         <img
-          src={reunion}
+          src={copy["story_image"]?.trim() || reunion}
           alt="Members of the batch at a reunion gathering"
           loading="lazy"
           className="rounded-md border border-border object-cover"
@@ -65,7 +60,7 @@ function About() {
 
       <section className="bg-card py-20">
         <div className="wrap">
-          <span className="kicker text-accent">How we work</span>
+          <span className="kicker text-accent">{copy["principles_kicker"]}</span>
           <h2 className="mt-3 max-w-[26ch] text-[30px]">{copy["principles_title"]}</h2>
           <div className="mt-10 grid gap-5 md:grid-cols-2">
             {principles.map((p, i) => (
@@ -81,14 +76,14 @@ function About() {
 
       <section className="wrap py-20">
         <div className="rounded-md border border-border bg-primary-soft px-8 py-12 sm:px-14">
-          <span className="kicker text-accent">Who runs it</span>
+          <span className="kicker text-accent">{copy["care_kicker"]}</span>
           <h2 className="mt-3 text-[26px]">{copy["care_title"]}</h2>
           <p className="mt-4 max-w-[62ch] text-[14.5px] leading-relaxed text-muted-foreground">
             {copy["care_body"]}
           </p>
           <div className="mt-7">
             <Link to="/contact" className="contents">
-              <Btn variant="accent">Get in touch</Btn>
+              <Btn variant="accent">{copy["care_cta_label"]}</Btn>
             </Link>
           </div>
         </div>

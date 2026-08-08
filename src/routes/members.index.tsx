@@ -3,7 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Briefcase, Lock, Mail, MapPin, Phone, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Avatar, Btn, Card, EmptyState, Input, Select, Spinner } from "@/components/ui";
 import { fullMembersQuery, publicMembersQuery, type PublicMember } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
@@ -60,11 +60,7 @@ function Members() {
 
   return (
     <>
-      <PageBanner
-        kicker="Directory"
-        title="Every batchmate, one searchable list."
-        lede="Names, professions and cities are open to everyone. Phone numbers, email addresses and member activity appear only when a batchmate signs in."
-      >
+      <CopyBanner page="members">
         {!canSeeContacts && (
           <div className="flex flex-wrap gap-3">
             <Link to="/auth" search={{ mode: "signin" }} className="contents">
@@ -75,7 +71,7 @@ function Members() {
             </Link>
           </div>
         )}
-      </PageBanner>
+      </CopyBanner>
 
       <section className="wrap py-12">
         <Card className="grid gap-3 p-4 md:grid-cols-[1.6fr_1fr_1fr]">

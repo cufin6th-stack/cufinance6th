@@ -3,6 +3,7 @@ import { Facebook, Menu, Phone, X, ChevronDown } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
+import { lines, useCopy } from "@/lib/copy";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Avatar, Btn } from "@/components/ui";
@@ -20,6 +21,24 @@ export const NAV = [
 ] as const;
 
 const FB_GROUP = "https://facebook.com/groups";
+
+function Brand({ logo, badge, size }: { logo: string; badge: string; size: number }) {
+  return logo ? (
+    <img
+      src={logo}
+      alt=""
+      style={{ height: size, width: size }}
+      className="rounded-sm object-cover"
+    />
+  ) : (
+    <span
+      style={{ height: size, width: size }}
+      className="flex items-center justify-center rounded-sm bg-accent font-display text-[17px] font-bold text-accent-foreground"
+    >
+      {badge}
+    </span>
+  );
+}
 
 export function AnnouncementBar() {
   const [message, setMessage] = useState<string | null>(null);
@@ -70,6 +89,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const { user, profile, isStaff, signOut } = useAuth();
+  const site = useCopy("site");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -82,20 +102,18 @@ export function Header() {
       <div className="bg-primary text-primary-foreground">
         <div className="wrap flex items-center gap-4 py-5">
           <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-accent font-display text-[17px] font-bold text-accent-foreground">
-              06
-            </span>
+            <Brand logo={site["logo_image"] ?? ""} badge={site["brand_badge"] ?? "06"} size={44} />
             <span>
               <span className="block font-display text-[17px] leading-tight font-semibold">
-                Finance 6th Batch
+                {site["brand_name"]}
               </span>
               <span className="block text-[11.5px] tracking-wide text-white/60">
-                University of Chittagong · Alumni
+                {site["brand_tagline"]}
               </span>
             </span>
           </Link>
           <a
-            href={FB_GROUP}
+            href={site["facebook_url"] || FB_GROUP}
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook group"
@@ -103,12 +121,14 @@ export function Header() {
           >
             <Facebook size={15} />
           </a>
-          <a
-            href="tel:+8801711000001"
-            className="hidden items-center gap-2 text-[12.5px] text-white/70 transition-colors hover:text-accent md:flex"
-          >
-            <Phone size={13} /> +880 1711 000001
-          </a>
+          {site["header_phone"] && (
+            <a
+              href={`tel:${site["header_phone"].replace(/\s/g, "")}`}
+              className="hidden items-center gap-2 text-[12.5px] text-white/70 transition-colors hover:text-accent md:flex"
+            >
+              <Phone size={13} /> {site["header_phone"]}
+            </a>
+          )}
         </div>
       </div>
 
@@ -203,28 +223,28 @@ export function Header() {
 }
 
 export function Footer() {
+  const site = useCopy("site");
   return (
     <footer className="mt-20 bg-primary text-[13.5px] text-white/70">
       <div className="wrap grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
           <div className="flex items-center gap-3">
-            <span className="flex h-10 w-10 items-center justify-center rounded-sm bg-accent font-display font-bold text-accent-foreground">
-              06
-            </span>
-            <span className="font-display text-[16px] font-semibold text-white">Finance 6th Batch</span>
+            <Brand logo={site["logo_image"] ?? ""} badge={site["brand_badge"] ?? "06"} size={40} />
+            <span className="font-display text-[16px] font-semibold text-white">{site["brand_name"]}</span>
           </div>
-          <p className="mt-4 max-w-[42ch] leading-relaxed">
-            The alumni record of the sixth batch, Department of Finance, University of Chittagong. Built and
-            owned by the batch — a permanent address for our people, our events and our accounts.
-          </p>
+          <p className="mt-4 max-w-[42ch] leading-relaxed">{site["footer_about"]}</p>
           <p className="mt-4 text-white/50">
-            Department of Finance, Faculty of Business Administration
-            <br />
-            University of Chittagong, Hathazari, Chattogram 4331
+            {lines(site["footer_address"] ?? "").map((l) => (
+              <span key={l} className="block">
+                {l}
+              </span>
+            ))}
           </p>
         </div>
         <div>
-          <h5 className="mb-3 font-display text-[15px] font-semibold text-white">Site</h5>
+          <h5 className="mb-3 font-display text-[15px] font-semibold text-white">
+            {site["footer_links_title"]}
+          </h5>
           {[
             { to: "/", label: "Home" },
             { to: "/about", label: "About the batch" },
@@ -238,12 +258,17 @@ export function Footer() {
           ))}
         </div>
         <div>
-          <h5 className="mb-3 font-display text-[15px] font-semibold text-white">Contact</h5>
-          <p className="num py-1">+880 1711 000001</p>
-          <p className="num py-1">+880 1711 000007</p>
-          <p className="py-1 text-white/50">Saturday–Thursday, 6pm–10pm</p>
+          <h5 className="mb-3 font-display text-[15px] font-semibold text-white">
+            {site["footer_contact_title"]}
+          </h5>
+          {lines(site["footer_contacts"] ?? "").map((c) => (
+            <p key={c} className="num py-1">
+              {c}
+            </p>
+          ))}
+          <p className="py-1 text-white/50">{site["footer_hours"]}</p>
           <a
-            href={FB_GROUP}
+            href={site["facebook_url"] || FB_GROUP}
             target="_blank"
             rel="noreferrer"
             className="mt-3 inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/25 transition-colors hover:border-accent hover:text-accent"
@@ -255,11 +280,37 @@ export function Footer() {
       </div>
       <div className="border-t border-white/10">
         <div className="wrap flex flex-wrap items-center justify-between gap-2 py-5 text-[12.5px] text-white/45">
-          <span>© {new Date().getFullYear()} Finance 6th Batch Alumni, University of Chittagong.</span>
-          <span className="num">Batch record · not a social network</span>
+          <span>
+            © {new Date().getFullYear()} {site["footer_copyright"]}
+          </span>
+          <span className="num">{site["footer_note"]}</span>
         </div>
       </div>
     </footer>
+  );
+}
+
+/** Page banner whose kicker, heading, intro and background image come from editable page copy. */
+export function CopyBanner({
+  page,
+  fallbackImage,
+  children,
+}: {
+  page: string;
+  fallbackImage?: string;
+  children?: ReactNode;
+}) {
+  const copy = useCopy(page);
+  const image = copy["banner_image"]?.trim() || fallbackImage;
+  return (
+    <PageBanner
+      kicker={copy["banner_kicker"] ?? ""}
+      title={copy["banner_title"] ?? ""}
+      lede={copy["banner_lede"] ?? ""}
+      {...(image ? { image } : {})}
+    >
+      {children}
+    </PageBanner>
   );
 }
 

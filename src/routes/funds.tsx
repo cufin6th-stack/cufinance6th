@@ -4,7 +4,7 @@ import { Download, Plus } from "lucide-react";
 import { useState } from "react";
 
 import { MemberOnly } from "@/components/guards";
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import {
   Avatar,
   Btn,
@@ -86,11 +86,7 @@ function Funds() {
 
   return (
     <>
-      <PageBanner
-        kicker="Open books"
-        title="Every taka, on the record."
-        lede="Contributions appear once an admin has verified the payment. Nothing is ever deleted — a mistake is corrected with a new, visible entry."
-      />
+      <CopyBanner page="funds" />
 
       <section className="wrap py-12">
         <Card className="grid gap-3 p-4 sm:grid-cols-[1fr_auto] sm:items-center">

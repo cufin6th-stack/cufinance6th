@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import { Paperclip, Pin } from "lucide-react";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Card, EmptyState, Spinner } from "@/components/ui";
 import { noticesQuery } from "@/lib/api";
 import { fmtDate } from "@/lib/format";
@@ -41,11 +41,7 @@ function Notices() {
 
   return (
     <>
-      <PageBanner
-        kicker="Notices"
-        title="Decisions, deadlines and dues."
-        lede="If it matters to the batch, it is written down here with a date on it."
-      />
+      <CopyBanner page="notices" />
       <section className="wrap py-12">
         {q.isPending ? (
           <Spinner label="Loading notices" />
