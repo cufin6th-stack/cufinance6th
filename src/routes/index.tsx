@@ -144,7 +144,7 @@ function Home() {
         <div className="wrap">
           <SectionHead
             title={upcoming.length ? (copy["events_title"] ?? "") : (copy["events_title_past"] ?? "")}
-            sub={copy["events_sub"]}
+            sub={copy["events_sub"] ?? ""}
             action={
               <Link to="/events" className="contents">
                 <Btn variant="ghost" size="sm">
@@ -168,7 +168,7 @@ function Home() {
       {/* Notices + news */}
       <section className="wrap grid gap-12 py-20 md:grid-cols-[1.1fr_1fr]">
         <div>
-          <SectionHead title={copy["notices_title"] ?? ""} sub={copy["notices_sub"]} />
+          <SectionHead title={copy["notices_title"] ?? ""} sub={copy["notices_sub"] ?? ""} />
           <div className="grid gap-3">
             {(notices.data ?? []).slice(0, 4).map((n) => (
               <Card key={n.id} className="card-lift px-5 py-4">
@@ -191,7 +191,7 @@ function Home() {
           </Link>
         </div>
         <div>
-          <SectionHead title={copy["news_title"] ?? ""} sub={copy["news_sub"]} />
+          <SectionHead title={copy["news_title"] ?? ""} sub={copy["news_sub"] ?? ""} />
           <div className="grid gap-3">
             {(posts.data ?? []).slice(0, 3).map((p) => (
               <Link key={p.id} to="/news/$slug" params={{ slug: p.slug }} className="block">
