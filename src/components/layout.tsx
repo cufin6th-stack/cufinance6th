@@ -3,6 +3,7 @@ import { Facebook, Menu, Phone, X, ChevronDown } from "lucide-react";
 import { useEffect, useState, type ReactNode } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
+import { lines, useCopy } from "@/lib/copy";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/utils";
 import { Avatar, Btn } from "@/components/ui";
@@ -20,6 +21,24 @@ export const NAV = [
 ] as const;
 
 const FB_GROUP = "https://facebook.com/groups";
+
+function Brand({ logo, badge, size }: { logo: string; badge: string; size: number }) {
+  return logo ? (
+    <img
+      src={logo}
+      alt=""
+      style={{ height: size, width: size }}
+      className="rounded-sm object-cover"
+    />
+  ) : (
+    <span
+      style={{ height: size, width: size }}
+      className="flex items-center justify-center rounded-sm bg-accent font-display text-[17px] font-bold text-accent-foreground"
+    >
+      {badge}
+    </span>
+  );
+}
 
 export function AnnouncementBar() {
   const [message, setMessage] = useState<string | null>(null);
@@ -70,6 +89,7 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [menu, setMenu] = useState(false);
   const { user, profile, isStaff, signOut } = useAuth();
+  const site = useCopy("site");
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   useEffect(() => {
@@ -82,20 +102,18 @@ export function Header() {
       <div className="bg-primary text-primary-foreground">
         <div className="wrap flex items-center gap-4 py-5">
           <Link to="/" className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-sm bg-accent font-display text-[17px] font-bold text-accent-foreground">
-              06
-            </span>
+            <Brand logo={site["logo_image"] ?? ""} badge={site["brand_badge"] ?? "06"} size={44} />
             <span>
               <span className="block font-display text-[17px] leading-tight font-semibold">
-                Finance 6th Batch
+                {site["brand_name"]}
               </span>
               <span className="block text-[11.5px] tracking-wide text-white/60">
-                University of Chittagong · Alumni
+                {site["brand_tagline"]}
               </span>
             </span>
           </Link>
           <a
-            href={FB_GROUP}
+            href={site["facebook_url"] || FB_GROUP}
             target="_blank"
             rel="noreferrer"
             aria-label="Facebook group"
@@ -103,12 +121,14 @@ export function Header() {
           >
             <Facebook size={15} />
           </a>
-          <a
-            href="tel:+8801711000001"
-            className="hidden items-center gap-2 text-[12.5px] text-white/70 transition-colors hover:text-accent md:flex"
-          >
-            <Phone size={13} /> +880 1711 000001
-          </a>
+          {site["header_phone"] && (
+            <a
+              href={`tel:${site["header_phone"].replace(/\s/g, "")}`}
+              className="hidden items-center gap-2 text-[12.5px] text-white/70 transition-colors hover:text-accent md:flex"
+            >
+              <Phone size={13} /> {site["header_phone"]}
+            </a>
+          )}
         </div>
       </div>
 
