@@ -16,7 +16,7 @@ import {
   registrationsQuery,
 } from "@/lib/api";
 import { useAuth, type Profile } from "@/lib/auth";
-import { PAGE_COPY, siteContentQuery } from "@/lib/copy";
+import { PAGE_SCHEMAS, SCHEMA_BY_KEY, siteContentQuery } from "@/lib/copy";
 import { MONTHS, bdt, downloadCsv, fmtDate } from "@/lib/format";
 
 export const Route = createFileRoute("/admin")({
@@ -40,41 +40,51 @@ export const Route = createFileRoute("/admin")({
   ),
 });
 
-type Tab =
-  | "approvals"
-  | "members"
-  | "roles"
-  | "events"
-  | "registrations"
-  | "contributions"
-  | "expenses"
-  | "notices"
-  | "news"
-  | "albums"
-  | "photos"
-  | "slider"
-  | "announcements"
-  | "notify"
-  | "pages"
-  | "messages";
+type Tab = string;
 
-const MENU: { value: Tab; label: string }[] = [
-  { value: "approvals", label: "Approvals" },
-  { value: "members", label: "Members" },
-  { value: "roles", label: "Roles" },
-  { value: "events", label: "Events" },
-  { value: "registrations", label: "Registrations" },
-  { value: "contributions", label: "Contributions" },
-  { value: "expenses", label: "Expenses" },
-  { value: "notify", label: "Notify members" },
-  { value: "notices", label: "Notices" },
-  { value: "news", label: "News" },
-  { value: "albums", label: "Albums" },
-  { value: "photos", label: "Photos" },
-  { value: "slider", label: "Home slider" },
-  { value: "announcements", label: "Announcement bar" },
-  { value: "pages", label: "Page text" },
-  { value: "messages", label: "Messages" },
+const MENU_GROUPS: { group: string; items: { value: Tab; label: string }[] }[] = [
+  {
+    group: "Members",
+    items: [
+      { value: "approvals", label: "Approvals" },
+      { value: "members", label: "Members" },
+      { value: "roles", label: "Roles" },
+    ],
+  },
+  {
+    group: "Events",
+    items: [
+      { value: "events", label: "Events" },
+      { value: "registrations", label: "Registrations" },
+    ],
+  },
+  {
+    group: "Money",
+    items: [
+      { value: "contributions", label: "Contributions" },
+      { value: "expenses", label: "Expenses" },
+    ],
+  },
+  {
+    group: "Publishing",
+    items: [
+      { value: "notify", label: "Notify members" },
+      { value: "notices", label: "Notices" },
+      { value: "news", label: "News" },
+      { value: "albums", label: "Albums" },
+      { value: "photos", label: "Photos" },
+      { value: "slider", label: "Home slider" },
+      { value: "announcements", label: "Announcement bar" },
+      { value: "messages", label: "Messages" },
+    ],
+  },
+  ...["Site design", "Pages", "Member pages"].map((group) => ({
+    group,
+    items: PAGE_SCHEMAS.filter((sc) => sc.group === group).map((sc) => ({
+      value: `page:${sc.key}`,
+      label: sc.label,
+    })),
+  })),
 ];
 
 const STATUS_OPTIONS = [
@@ -85,6 +95,7 @@ const STATUS_OPTIONS = [
 function Admin() {
   const { profile } = useAuth();
   const [tab, setTab] = useState<Tab>("approvals");
+  const pageKey = tab.startsWith("page:") ? tab.slice(5) : null;
   const events = useQuery(eventsQuery);
   const albums = useQuery({
     queryKey: ["albums-list"],
@@ -361,34 +372,39 @@ function Admin() {
       </div>
 
       <div className="mt-8 grid gap-8 lg:grid-cols-[240px_1fr]">
-        <Card className="h-max divide-y divide-border-soft overflow-hidden">
-          {MENU.map((item) => {
-            const active = tab === item.value;
-            return (
-              <button
-                key={item.value}
-                type="button"
-                onClick={() => setTab(item.value)}
-                aria-current={active ? "page" : undefined}
-                className={`flex w-full items-center justify-between px-4 py-3 text-left text-[13.5px] transition-colors ${
-                  active
-                    ? "bg-accent-soft font-semibold text-primary"
-                    : "text-muted-foreground hover:bg-background hover:text-primary"
-                }`}
-              >
-                <span>{item.label}</span>
-                <ChevronRight size={13} className={active ? "text-accent" : "text-faint"} />
-              </button>
-            );
-          })}
-        </Card>
+        <div className="h-max space-y-4">
+          {MENU_GROUPS.map((g) => (
+            <Card key={g.group} className="divide-y divide-border-soft overflow-hidden">
+              <p className="kicker bg-background px-4 py-2.5 text-faint">{g.group}</p>
+              {g.items.map((item) => {
+                const active = tab === item.value;
+                return (
+                  <button
+                    key={item.value}
+                    type="button"
+                    onClick={() => setTab(item.value)}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex w-full items-center justify-between px-4 py-3 text-left text-[13.5px] transition-colors ${
+                      active
+                        ? "bg-accent-soft font-semibold text-primary"
+                        : "text-muted-foreground hover:bg-background hover:text-primary"
+                    }`}
+                  >
+                    <span>{item.label}</span>
+                    <ChevronRight size={13} className={active ? "text-accent" : "text-faint"} />
+                  </button>
+                );
+              })}
+            </Card>
+          ))}
+        </div>
 
         <div className="min-w-0">
           {tab === "approvals" && <Approvals />}
           {tab === "contributions" && <Contributions eventOptions={eventOptions} />}
           {tab === "registrations" && <Registrations />}
           {tab === "messages" && <Messages />}
-          {tab === "pages" && <PagesEditor />}
+          {pageKey && <PagesEditor key={pageKey} pageKey={pageKey} />}
           {configs[tab] && <CrudSection key={tab} config={configs[tab]!} />}
         </div>
       </div>
@@ -776,71 +792,51 @@ function Messages() {
   );
 }
 
-/* ---------- Page text ---------- */
-const humanize = (k: string) => k.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase());
-
-function PagesEditor() {
-  const [page, setPage] = useState<"home" | "about">("home");
-  const q = useQuery(siteContentQuery(page));
+/* ---------- Page content ---------- */
+function PagesEditor({ pageKey }: { pageKey: string }) {
+  const schema = SCHEMA_BY_KEY[pageKey]!;
+  const q = useQuery(siteContentQuery(pageKey));
   const qc = useQueryClient();
 
   const save = useMutation({
     mutationFn: async (v: Row) => {
       const data: Record<string, string> = {};
-      for (const k of Object.keys(PAGE_COPY[page]!)) data[k] = String(v[k] ?? "");
-      const { error } = await supabase.from("site_content").upsert({ key: page, data });
+      for (const f of schema.fields) data[f.name] = String(v[f.name] ?? "");
+      const { error } = await supabase.from("site_content").upsert({ key: pageKey, data });
       if (error) throw new Error(error.message);
     },
     onSuccess: () => {
-      toast.success("Page text saved.");
-      void qc.invalidateQueries({ queryKey: ["site-content", page] });
+      toast.success("Saved. The live site is updated.");
+      void qc.invalidateQueries({ queryKey: ["site-content", pageKey] });
     },
     onError: (e: Error) => toast.error(e.message),
   });
 
-  const defaults = PAGE_COPY[page]!;
   const stored = q.data ?? {};
   const value: Row = {};
-  for (const [k, v] of Object.entries(defaults)) value[k] = stored[k]?.trim() ? stored[k] : v;
+  for (const f of schema.fields) value[f.name] = stored[f.name]?.trim() ? stored[f.name] : f.default;
 
-  const fields: FieldDef[] = Object.keys(defaults).map((k) => ({
-    name: k,
-    label: humanize(k),
-    type: defaults[k]!.length > 90 || k === "principles" ? "textarea" : "text",
-    ...(k === "principles"
-      ? { hint: "One rule per line, written as “Title :: description”." }
-      : defaults[k]!.includes("\n\n")
-        ? { hint: "Leave a blank line between paragraphs." }
-        : {}),
+  const fields: FieldDef[] = schema.fields.map((f) => ({
+    name: f.name,
+    label: f.label,
+    type: f.type,
+    ...(f.hint ? { hint: f.hint } : {}),
   }));
 
+  if (q.isPending) return <Spinner />;
+
   return (
-    <div className="space-y-5">
-      <div className="flex gap-2">
-        {(["home", "about"] as const).map((p) => (
-          <Btn key={p} size="sm" variant={page === p ? "primary" : "ghost"} onClick={() => setPage(p)}>
-            {humanize(p)} page
-          </Btn>
-        ))}
-      </div>
-      {q.isPending ? (
-        <Spinner />
-      ) : (
-        <Card className="p-6">
-          <h3 className="text-[18px]">{humanize(page)} page text</h3>
-          <p className="mt-1 text-[13px] text-faint">
-            These blocks appear on the live site as soon as you save.
-          </p>
-          <EditForm
-            key={`${page}-${JSON.stringify(stored).length}`}
-            fields={fields}
-            value={value}
-            busy={save.isPending}
-            onCancel={() => void qc.invalidateQueries({ queryKey: ["site-content", page] })}
-            onSubmit={(v) => save.mutate(v)}
-          />
-        </Card>
-      )}
-    </div>
+    <Card className="p-6">
+      <h3 className="text-[18px]">{schema.label}</h3>
+      <p className="mt-1 max-w-[70ch] text-[13px] text-faint">{schema.note}</p>
+      <EditForm
+        key={`${pageKey}-${JSON.stringify(stored).length}`}
+        fields={fields}
+        value={value}
+        busy={save.isPending}
+        onCancel={() => void qc.invalidateQueries({ queryKey: ["site-content", pageKey] })}
+        onSubmit={(v) => save.mutate(v)}
+      />
+    </Card>
   );
 }
