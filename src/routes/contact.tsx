@@ -4,7 +4,7 @@ import { Facebook, Mail, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Btn, Card, Field, Input, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -45,11 +45,7 @@ function Contact() {
 
   return (
     <>
-      <PageBanner
-        kicker="Contact"
-        title="Talk to the caretakers."
-        lede="Membership questions, event help, corrections to the ledger — anything that needs a human."
-      />
+      <CopyBanner page="contact" />
       <section className="wrap grid gap-8 py-12 md:grid-cols-[1.2fr_1fr]">
         <Card className="p-6">
           <h2 className="text-[19px]">Send a message</h2>

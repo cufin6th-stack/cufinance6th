@@ -5,7 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { MemberOnly } from "@/components/guards";
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Btn, Card, Field, Input, Select, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 import { eventsQuery } from "@/lib/api";
@@ -72,11 +72,7 @@ function ContributePage() {
 
   return (
     <>
-      <PageBanner
-        kicker="Batch fund"
-        title="Log your contribution."
-        lede="Fill in the payment details you already made. An admin verifies every entry before it appears on the ledger."
-      />
+      <CopyBanner page="contribute" />
 
       <section className="wrap py-12">
         <Link to="/funds" className="inline-flex items-center gap-1.5 text-[13px] text-faint hover:text-primary">

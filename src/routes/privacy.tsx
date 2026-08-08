@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 
 export const Route = createFileRoute("/privacy")({
   head: () => ({
@@ -48,11 +48,7 @@ const SECTIONS = [
 function Privacy() {
   return (
     <>
-      <PageBanner
-        kicker="Privacy"
-        title="Public where it helps. Private where it matters."
-        lede="A plain-language summary of what this site shows, to whom, and what you can change."
-      />
+      <CopyBanner page="privacy" />
       <section className="wrap max-w-[72ch] py-14">
         <div className="space-y-9">
           {SECTIONS.map((s) => (

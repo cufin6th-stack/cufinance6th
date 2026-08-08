@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 
-import { PageBanner } from "@/components/layout";
+import { CopyBanner } from "@/components/layout";
 import { Card, EmptyState, Pill, Spinner, Tabs } from "@/components/ui";
 import { postsQuery } from "@/lib/api";
 import { fmtDate } from "@/lib/format";
@@ -46,11 +46,7 @@ function News() {
 
   return (
     <>
-      <PageBanner
-        kicker="News"
-        title="What our people are doing."
-        lede="Promotions, degrees, new ventures — and the losses we mark together."
-      />
+      <CopyBanner page="news" />
       <section className="wrap py-12">
         <Tabs
           tabs={CATS.map((c) => ({

@@ -234,9 +234,9 @@ export function Footer() {
           </div>
           <p className="mt-4 max-w-[42ch] leading-relaxed">{site["footer_about"]}</p>
           <p className="mt-4 text-white/50">
-            {lines(site["footer_address"] ?? "").map((l, i) => (
+            {lines(site["footer_address"] ?? "").map((l) => (
               <span key={l} className="block">
-                {i > 0 ? l : l}
+                {l}
               </span>
             ))}
           </p>
