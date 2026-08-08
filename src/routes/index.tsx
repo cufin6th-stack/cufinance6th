@@ -57,7 +57,7 @@ function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden bg-primary">
         <img
-          src={heroCampus}
+          src={copy["hero_image"]?.trim() || heroCampus}
           alt="University of Chittagong campus at golden hour"
           width={1920}
           height={1088}
@@ -67,18 +67,17 @@ function Home() {
         <div className="wrap relative flex min-h-[520px] flex-col justify-end py-16">
           <div className="max-w-[52ch]">
             <span className="kicker text-accent">
-              {slide?.kicker ?? "Department of Finance · University of Chittagong"}
+              {slide?.kicker ?? copy["hero_kicker"]}
             </span>
             <h1 className="mt-4 text-[38px] leading-[1.15] text-white sm:text-[52px]">
-              {slide?.title ?? "Sixth Batch. One Address."}
+              {slide?.title ?? copy["hero_title"]}
             </h1>
             <p className="mt-5 max-w-[46ch] text-[15px] leading-relaxed text-white/75">
-              {slide?.description ??
-                "A permanent, batch-owned home for our people, our events and every taka we raise together."}
+              {slide?.description ?? copy["hero_body"]}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to={(slide?.cta_url as "/members") ?? "/members"} className="contents">
-                <Btn variant="accent">{slide?.cta_label ?? "Browse the directory"}</Btn>
+                <Btn variant="accent">{slide?.cta_label ?? copy["hero_cta_label"]}</Btn>
               </Link>
             </div>
           </div>
@@ -104,10 +103,10 @@ function Home() {
       <section className="wrap -mt-8 relative">
         <Card className="grid grid-cols-2 shadow-flat md:grid-cols-4">
           {[
-            { l: "Members on record", v: stats.data?.members ?? 0 },
-            { l: "Cities worldwide", v: stats.data?.cities ?? 0 },
-            { l: "Events organised", v: stats.data?.events ?? 0 },
-            { l: "Years as a batch", v: new Date().getFullYear() - 2008 },
+            { l: copy["stat_members"] ?? "", v: stats.data?.members ?? 0 },
+            { l: copy["stat_cities"] ?? "", v: stats.data?.cities ?? 0 },
+            { l: copy["stat_events"] ?? "", v: stats.data?.events ?? 0 },
+            { l: copy["stat_years"] ?? "", v: new Date().getFullYear() - 2008 },
           ].map((s) => (
             <div key={s.l} className="border-r border-b border-border-soft px-6 py-6 last:border-r-0 md:border-b-0">
               <div className="num text-[26px] font-semibold text-primary">{s.v}</div>
@@ -120,7 +119,7 @@ function Home() {
       {/* Intro */}
       <section className="wrap grid items-center gap-12 py-20 md:grid-cols-2">
         <img
-          src={reunionImg}
+          src={copy["intro_image"]?.trim() || reunionImg}
           alt="Batchmates gathered for the reunion photo"
           loading="lazy"
           width={1280}
@@ -134,7 +133,7 @@ function Home() {
           <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">{copy["intro_body2"]}</p>
           <div className="mt-7 flex flex-wrap gap-3">
             <Link to="/members" className="contents">
-              <Btn variant="ghost">See the directory</Btn>
+              <Btn variant="ghost">{copy["intro_cta_label"]}</Btn>
             </Link>
           </div>
         </div>
@@ -144,8 +143,8 @@ function Home() {
       <section className="bg-card py-20">
         <div className="wrap">
           <SectionHead
-            title={upcoming.length ? "Upcoming events" : "Recent events"}
-            sub="Registration, headcount and accounts all run through this site."
+            title={upcoming.length ? (copy["events_title"] ?? "") : (copy["events_title_past"] ?? "")}
+            sub={copy["events_sub"]}
             action={
               <Link to="/events" className="contents">
                 <Btn variant="ghost" size="sm">
@@ -169,7 +168,7 @@ function Home() {
       {/* Notices + news */}
       <section className="wrap grid gap-12 py-20 md:grid-cols-[1.1fr_1fr]">
         <div>
-          <SectionHead title="Notice board" sub="Deadlines and batch decisions." />
+          <SectionHead title={copy["notices_title"] ?? ""} sub={copy["notices_sub"]} />
           <div className="grid gap-3">
             {(notices.data ?? []).slice(0, 4).map((n) => (
               <Card key={n.id} className="card-lift px-5 py-4">
@@ -192,7 +191,7 @@ function Home() {
           </Link>
         </div>
         <div>
-          <SectionHead title="Batch news" sub="Promotions, achievements, condolences." />
+          <SectionHead title={copy["news_title"] ?? ""} sub={copy["news_sub"]} />
           <div className="grid gap-3">
             {(posts.data ?? []).slice(0, 3).map((p) => (
               <Link key={p.id} to="/news/$slug" params={{ slug: p.slug }} className="block">
