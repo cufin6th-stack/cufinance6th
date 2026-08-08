@@ -243,11 +243,29 @@ export const PAGE_SCHEMAS: PageSchema[] = [
     label: "Contact page",
     group: "Pages",
     note: "Banner text above the contact form.",
-    fields: banner(
-      "Contact",
-      "Talk to the caretakers.",
-      "Membership questions, event help, corrections to the ledger — anything that needs a human.",
-    ),
+    fields: [
+      ...banner(
+        "Contact",
+        "Talk to the caretakers.",
+        "Membership questions, event help, corrections to the ledger — anything that needs a human.",
+      ),
+      t("form_title", "Message form heading", "Send a message"),
+      t("direct_title", "Direct lines heading", "Direct lines"),
+      ta(
+        "phones",
+        "Phone lines",
+        "+880 1711 000001 :: Convener · Saturday–Thursday, 6pm–10pm\n+880 1711 000007 :: Treasurer · ledger and payments",
+        "One per line, written as “number :: role”.",
+      ),
+      t("email", "Email address", "finance06.cu@gmail.com"),
+      ta(
+        "address",
+        "Postal address",
+        "Department of Finance, University of Chittagong, Hathazari, Chattogram 4331",
+      ),
+      t("facebook_label", "Facebook link label", "Batch Facebook group"),
+      t("facebook_url", "Facebook link", "https://facebook.com/groups"),
+    ],
   },
   {
     key: "privacy",

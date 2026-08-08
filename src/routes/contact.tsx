@@ -5,6 +5,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { CopyBanner } from "@/components/layout";
+import { pairs, useCopy } from "@/lib/copy";
 import { Btn, Card, Field, Input, Textarea } from "@/components/ui";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -43,12 +44,14 @@ function Contact() {
     onError: (e: Error) => toast.error(e.message),
   });
 
+  const copy = useCopy("contact");
+
   return (
     <>
       <CopyBanner page="contact" />
       <section className="wrap grid gap-8 py-12 md:grid-cols-[1.2fr_1fr]">
         <Card className="p-6">
-          <h2 className="text-[19px]">Send a message</h2>
+          <h2 className="text-[19px]">{copy["form_title"]}</h2>
           <form
             className="mt-5 grid gap-4"
             onSubmit={(e) => {
@@ -87,38 +90,37 @@ function Contact() {
         </Card>
 
         <Card className="p-6">
-          <h2 className="text-[19px]">Direct lines</h2>
+          <h2 className="text-[19px]">{copy["direct_title"]}</h2>
           <ul className="mt-5 space-y-4 text-[13.5px]">
-            <li className="flex items-start gap-3">
-              <Phone size={14} className="mt-1 text-accent" />
-              <span>
-                <span className="num block text-foreground">+880 1711 000001</span>
-                <span className="text-faint">Convener · Saturday–Thursday, 6pm–10pm</span>
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <Phone size={14} className="mt-1 text-accent" />
-              <span>
-                <span className="num block text-foreground">+880 1711 000007</span>
-                <span className="text-faint">Treasurer · ledger and payments</span>
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <Mail size={14} className="mt-1 text-accent" />
-              <span className="text-foreground">finance06.cu@gmail.com</span>
-            </li>
-            <li className="flex items-start gap-3">
-              <MapPin size={14} className="mt-1 text-accent" />
-              <span className="text-muted-foreground">
-                Department of Finance, University of Chittagong, Hathazari, Chattogram 4331
-              </span>
-            </li>
-            <li className="flex items-start gap-3">
-              <Facebook size={14} className="mt-1 text-accent" />
-              <a href="https://facebook.com/groups" target="_blank" rel="noreferrer" className="text-primary">
-                Batch Facebook group
-              </a>
-            </li>
+            {pairs(copy["phones"] ?? "").map((ph) => (
+              <li key={ph.t} className="flex items-start gap-3">
+                <Phone size={14} className="mt-1 text-accent" />
+                <span>
+                  <span className="num block text-foreground">{ph.t}</span>
+                  {ph.d && <span className="text-faint">{ph.d}</span>}
+                </span>
+              </li>
+            ))}
+            {copy["email"] && (
+              <li className="flex items-start gap-3">
+                <Mail size={14} className="mt-1 text-accent" />
+                <span className="text-foreground">{copy["email"]}</span>
+              </li>
+            )}
+            {copy["address"] && (
+              <li className="flex items-start gap-3">
+                <MapPin size={14} className="mt-1 text-accent" />
+                <span className="text-muted-foreground">{copy["address"]}</span>
+              </li>
+            )}
+            {copy["facebook_url"] && (
+              <li className="flex items-start gap-3">
+                <Facebook size={14} className="mt-1 text-accent" />
+                <a href={copy["facebook_url"]} target="_blank" rel="noreferrer" className="text-primary">
+                  {copy["facebook_label"] || "Facebook group"}
+                </a>
+              </li>
+            )}
           </ul>
         </Card>
       </section>
