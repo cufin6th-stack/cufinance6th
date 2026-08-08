@@ -60,8 +60,8 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       t("brand_badge", "Logo text (fallback)", "06"),
       t("brand_name", "Site name", "Finance 6th Batch"),
       t("brand_tagline", "Site tagline", "University of Chittagong · Alumni"),
-      t("header_phone", "Header phone number", "+880 1711 000001"),
-      t("facebook_url", "Facebook group link", "https://facebook.com/groups"),
+      t("header_phone", "Header phone number", "+880 1816 809585"),
+      t("facebook_url", "Facebook group link", "https://www.facebook.com/groups/114257655313732"),
       ta(
         "footer_about",
         "Footer description",
@@ -78,7 +78,7 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       ta(
         "footer_contacts",
         "Footer contact lines",
-        "+880 1711 000001\n+880 1711 000007",
+        "+880 1816 809585\n+880 1816 809585",
         "One phone number or email per line.",
       ),
       t("footer_hours", "Footer availability line", "Saturday–Thursday, 6pm–10pm"),
@@ -254,17 +254,17 @@ export const PAGE_SCHEMAS: PageSchema[] = [
       ta(
         "phones",
         "Phone lines",
-        "+880 1711 000001 :: Convener · Saturday–Thursday, 6pm–10pm\n+880 1711 000007 :: Treasurer · ledger and payments",
+        "+880 1816 809585 :: Admin · Saturday–Thursday, 6pm–10pm\n+880 1816 809585 :: Admin",
         "One per line, written as “number :: role”.",
       ),
-      t("email", "Email address", "finance06.cu@gmail.com"),
+      t("email", "Email address", "cufinance6th@gmail.com"),
       ta(
         "address",
         "Postal address",
         "Department of Finance, University of Chittagong, Hathazari, Chattogram 4331",
       ),
       t("facebook_label", "Facebook link label", "Batch Facebook group"),
-      t("facebook_url", "Facebook link", "https://facebook.com/groups"),
+      t("facebook_url", "Facebook link", "https://www.facebook.com/groups/114257655313732"),
     ],
   },
   {
